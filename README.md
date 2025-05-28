@@ -7,7 +7,7 @@ MyProteinBuddy is a protein-tracking application.
 - Facilitates authentication using email and password or Google accounts.
 - Allows users to input their protein goal or calculate their protein goal based on their age, height, weight, and activity level.
 - Allows users to log, edit, and delete their intake of various foods, from which their protein intake is calculated. 
-- Organises and displays fibre intake by meal, including historical data. 
+- Organises and displays protein intake by meal, including historical data. 
 
 ## Installation
 This version of the application is only supported by macOS devices. 
@@ -45,7 +45,7 @@ If these are already installed, skip this section.
 
 ## Known Bugs
 After signing up, users will not be directed to the calculator page automatically. 
-However, users should direct themselves to this page to set their fibre goal. 
+However, users should direct themselves to this page to set their protein goal. 
 This bug does not hinder the application's functionality. 
 
 ## Support
