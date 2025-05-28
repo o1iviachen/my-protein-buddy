@@ -420,7 +420,7 @@
                                                 </constraints>
                                                 <color key="tintColor" name="TextColour"/>
                                                 <buttonConfiguration key="configuration" style="filled" title="">
-                                                    <color key="baseForegroundColor" name="Dark Purple"/>
+                                                    <color key="baseForegroundColor" name="TextColour"/>
                                                     <color key="baseBackgroundColor" systemColor="systemBackgroundColor"/>
                                                 </buttonConfiguration>
                                                 <connections>
@@ -757,7 +757,7 @@
                         <color key="tintColor" name="TextColour"/>
                     </view>
                     <tabBarItem key="tabBarItem" title="" image="calendar" catalog="system" selectedImage="calendar" id="219-4R-iVd">
-                        <color key="badgeColor" name="Dark Purple"/>
+                        <color key="badgeColor" name="TextColour"/>
                     </tabBarItem>
                     <navigationItem key="navigationItem" id="Tdj-59-LaH"/>
                     <connections>
@@ -944,7 +944,7 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="lD6-qs-x2F" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="" image="person.fill" catalog="system" selectedImage="person.fill" id="p3X-pi-sCd">
-                        <color key="badgeColor" name="Dark Purple"/>
+                        <color key="badgeColor" name="TextColour"/>
                     </tabBarItem>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="zD3-fI-vqW">
@@ -1332,7 +1332,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="ev4-I2-8wO">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="dY3-Af-MOX">
-                            <color key="tintColor" name="Dark Purple"/>
+                            <color key="tintColor" name="TextColour"/>
                         </barButtonItem>
                     </navigationItem>
                     <connections>
@@ -1360,7 +1360,7 @@
         <namedColor name="AccentColour">
             <color red="1" green="0.94117647058823528" blue="0.85882352941176465" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
-        <namedColor name="Dark Purple">
+        <namedColor name="TextColour">
             <color red="0.31764705882352939" green="0.18823529411764706" blue="0.396078431372549" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="TextColour">
