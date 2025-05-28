@@ -40,6 +40,7 @@ If these are already installed, skip this section.
         NUTRITIONIX_APP_ID = <YOUR_APP_ID>
         GOOGLE_URL_SCHEME = <YOUR_URL_SCHEME>
         ```
+10. Go to the Project File icon and click the Project, not the Targets. Go to the Info tab. Under Configurations, select both dropdowns for Debug and Release. For both configurations, select "None" and change the field to "Secrets."
 11. In Xcode, click the Run button or press ``Cmd + R`` to run MyProteinBuddy 
 
 ## Known Bugs
