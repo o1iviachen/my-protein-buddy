@@ -49,9 +49,7 @@ class SearchViewController: UIViewController {
             // Fetch user's recently consumed foods
             self.firebaseManager.fetchRecentFoods(document: document) { recentFoods in
                 self.searchList = recentFoods
-                
-                // Adjust results table view height to fit recent foods; learned why to use DispatchQueue.main.async using https://medium.com/@prabhatkasera/dispatch-async-in-ios-bd32295b042f
-                
+                                
                 // Hide loading animation and display recent foods
                 self.loadingAnimation.isHidden = true
                 self.resultsTableView.reloadData()
