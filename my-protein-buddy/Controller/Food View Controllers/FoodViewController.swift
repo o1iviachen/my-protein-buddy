@@ -5,7 +5,7 @@
  This file retrieves the user's logged food
  History:
  Mar 5, 2025: File creation
-*/
+ */
 
 import Foundation
 import UIKit
@@ -17,10 +17,10 @@ class FoodViewController: UIViewController {
      A class that allows the Food View Controller to manage the user's food intake and protein consumption, and display the data in a table grouped by meals. It also allows the user to edit and delete food entries with Firebase.
      
      - Properties:
-        - tableViewHeightConstraint (Unwrapped NSLayoutConstraint): Dynamically adjusts the height of the Table View.
-        - tableView (Unwrapped UITableView): Displays food items grouped by meal.
-        - progressLabel (Unwrapped UILabel): Shows the user's daily protein consumption progress relative to their goal.
-        - progressBar (Unwrapped UIProgressView): Visually indicates the percent of protein intake goal achieved.
+     - tableViewHeightConstraint (Unwrapped NSLayoutConstraint): Dynamically adjusts the height of the Table View.
+     - tableView (Unwrapped UITableView): Displays food items grouped by meal.
+     - progressLabel (Unwrapped UILabel): Shows the user's daily protein consumption progress relative to their goal.
+     - progressBar (Unwrapped UIProgressView): Visually indicates the percent of protein intake goal achieved.
      */
     
     let firebaseManager = FirebaseManager()
@@ -40,6 +40,7 @@ class FoodViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var progressLabel: UILabel!
     @IBOutlet weak var progressBar: UIProgressView!
+    @IBOutlet weak var loadingAnimation: UIActivityIndicatorView!
     
     
     override func viewDidLoad() {
@@ -48,13 +49,14 @@ class FoodViewController: UIViewController {
          */
         
         super.viewDidLoad()
+        loadingAnimation.isHidden = false
         
         // Set self as the table view's delegate to handle user interactions
         tableView.delegate = self
-
+        
         // Set self as the table view's data source to provide the data
         tableView.dataSource = self
-
+        
         // Register food cell in table view
         tableView.register(UINib(nibName: K.foodCellIdentifier, bundle: nil), forCellReuseIdentifier: K.foodCellIdentifier)
         
@@ -68,7 +70,7 @@ class FoodViewController: UIViewController {
          Called just before the View Controller is loaded and adjusts the View Controller based on the user's desires.
          
          - Parameters:
-            - animated (Bool): Indicates if the appearance is animated.
+         - animated (Bool): Indicates if the appearance is animated.
          */
         
         super.viewWillAppear(animated)
@@ -97,6 +99,8 @@ class FoodViewController: UIViewController {
                 self.proteinGoal = goal
                 self.updateProgressUI()
             }
+            
+            self.loadingAnimation.isHidden = true
         }
         
         // Change the table view height depending on the number of foods
@@ -114,8 +118,8 @@ class FoodViewController: UIViewController {
          Prepares data before a segue to the Result View Controller is performed to pass the selected food and its meal category to the destination.
          
          - Parameters:
-            - segue (UIStoryboardSegue): Indicates the View Controllers involved in the segue.
-            - sender (Optional Any): Indicates the object that initiated the segue.
+         - segue (UIStoryboardSegue): Indicates the View Controllers involved in the segue.
+         - sender (Optional Any): Indicates the object that initiated the segue.
          */
         
         // If the segue to be performed goes to the result view controller (the food is being edited)
@@ -166,8 +170,8 @@ extension FoodViewController: UITableViewDataSource {
          Determines the number of sections to display in the table view.
          
          - Parameters:
-            - tableView (UITableView): Requests this information.
-
+         - tableView (UITableView): Requests this information.
+         
          - Returns: An Int representing the number of meal categories.
          */
         
@@ -181,8 +185,8 @@ extension FoodViewController: UITableViewDataSource {
          Returns the number of food entries in a specific meal section.
          
          - Parameters:
-            - tableView (UITableView): Requests this information.
-            - section (Int): Indicates the index of the section requesting its row count.
+         - tableView (UITableView): Requests this information.
+         - section (Int): Indicates the index of the section requesting its row count.
          
          - Returns: An Int representing the number of food items for the specified meal.
          */
@@ -197,8 +201,8 @@ extension FoodViewController: UITableViewDataSource {
          Configures and returns a Table View Cell with the food name, brand, mass consumed, and protein content.
          
          - Parameters:
-            - tableView (UITableView): Requests this information.
-            - indexPath (IndexPath): Specifies the section and row of the cell.
+         - tableView (UITableView): Requests this information.
+         - indexPath (IndexPath): Specifies the section and row of the cell.
          
          - Returns: A UITableView Cell populated with the appropriate format.
          */
@@ -227,8 +231,8 @@ extension FoodViewController: UITableViewDataSource {
          Provides the title for a given section in the Table View.
          
          - Parameters:
-            - tableView (UITableView): Requests this information.
-            - section (Int): Indicates the index of the section requesting its header title.
+         - tableView (UITableView): Requests this information.
+         - section (Int): Indicates the index of the section requesting its header title.
          
          - Returns: An Unwrapped String containing the title for the specific section or nil if the title is unavailable.
          */
@@ -251,41 +255,17 @@ extension FoodViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         /**
          Redirects the user to an editing screen when trying to edit the current day's food log.
-
+         
          - Parameters:
-            - tableView (UITableView): Indicates the row selection.
-            - indexPath (IndexPath): Specifies the selected row.
+         - tableView (UITableView): Indicates the row selection.
+         - indexPath (IndexPath): Specifies the selected row.
          */
         
-        // Check if UIHostingController is in navigation stack
-        exists = navigationController?.viewControllers.contains {
-            $0 is UIHostingController<AnyView>
-        } == true
-
         // If not, user is not checking the food view controller from the calendar view controller. Therefore, allow user to edit food
-        if !exists {
-            selectedMeal = headerTitles[indexPath.section]
-            selectedFood = tableData[indexPath.section][indexPath.row]
-            performSegue(withIdentifier: K.foodResultSegue, sender: self)
-        }
+        selectedMeal = headerTitles[indexPath.section]
+        selectedFood = tableData[indexPath.section][indexPath.row]
+        performSegue(withIdentifier: K.foodResultSegue, sender: self)
         tableView.deselectRow(at: indexPath, animated: true)
-    }
-    
-    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        /**
-         Determines if user can edit a food cell
-
-         - Parameters:
-            - tableView (UITableView): Indicates the row selection.
-            - indexPath (IndexPath): Specifies the selected row.
-         */
-        
-        // Check if UIHostingController is in navigation stack
-        exists = navigationController?.viewControllers.contains {
-            $0 is UIHostingController<AnyView>
-        } == true
-        
-        return !exists
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
@@ -293,9 +273,9 @@ extension FoodViewController: UITableViewDelegate {
          Allows the user to swipe to delete food items from Firebase, before updating the Table View UI and the progress bar.
          
          - Parameters:
-            - tableView (UITableView): Indicates the row selection.
-            - editingStyle (UITableViewCell.EditingStyle): Indicates the editing action.
-            - indexPath (IndexPath): Specifies which row will be edited.
+         - tableView (UITableView): Indicates the row selection.
+         - editingStyle (UITableViewCell.EditingStyle): Indicates the editing action.
+         - indexPath (IndexPath): Specifies which row will be edited.
          */
         
         // Makes editing style the delete style upon swiping left; code from https://stackoverflow.com/questions/24103069/add-swipe-to-delete-uitableviewcell
@@ -328,7 +308,7 @@ extension FoodViewController: UITableViewDelegate {
                         }
                     }
                     
-                // Otherwise, show error to user
+                    // Otherwise, show error to user
                 } else {
                     self.alertManager.showAlert(alertMessage: "could not remove food.", viewController: self)
                 }
@@ -344,34 +324,29 @@ struct FoodView: UIViewControllerRepresentable {
      */
     
     let date: Date
-
     
-    func updateUIViewController(_ uiViewController: FoodViewController, context: Context) {
+    
+    func updateUIViewController(_ uiViewController: UINavigationController, context: Context) {
         /**
          A required function that is not currently used.
          
          - Parameters:
-            - uiViewController (FoodViewController): Indicates the View Vontroller instance to update.
-            - context (Context): Provides information for updating the View Controller.
+         - uiViewController (FoodViewController): Indicates the View Vontroller instance to update.
+         - context (Context): Provides information for updating the View Controller.
          */
     }
-       
     
-    func makeUIViewController(context: Context) -> FoodViewController {
-        /**
-         Creates and instance and configures a FoodViewController from the Storyboard with a given date. .
-         
-         - Parameters:
-            - context (Context): Provides information for creating the View Controller.
-         
-         - Returns: An instance of a configured FoodViewController.
-         */
-        
+    
+    func makeUIViewController(context: Context) -> UINavigationController {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let vc = storyboard.instantiateViewController(withIdentifier: "FoodViewController") as! FoodViewController
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yy_MM_dd"
-        vc.dateString = dateFormatter.string(from: date)
-        return vc
+        let navController = storyboard.instantiateViewController(withIdentifier: "FoodNavController") as! UINavigationController
+        
+        if let foodVC = navController.viewControllers.first as? FoodViewController {
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "yy_MM_dd"
+            foodVC.dateString = dateFormatter.string(from: date)
+        }
+        
+        return navController
     }
 }

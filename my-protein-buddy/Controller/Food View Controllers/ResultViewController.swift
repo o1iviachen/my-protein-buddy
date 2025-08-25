@@ -9,6 +9,7 @@
 
 import UIKit
 import Firebase
+import SwiftUI
 
 class ResultViewController: UIViewController {
     /**
@@ -175,10 +176,16 @@ class ResultViewController: UIViewController {
             - sender (UIBarButtonItem): Indicates that the user has confirmed their entry and triggers the updates for adding a food item.
          */
         
+        // Check if UIHostingController is in navigation stack
+        let exists = navigationController?.viewControllers.contains {
+            $0 is UIHostingController<AnyView>
+        } == true
+        
         // If previous view controller is a FoodViewController, the user was updating their food; code from https://stackoverflow.com/questions/16608536/how-to-get-the-previous-viewcontroller-that-pushed-my-current-view
-        if let navController = self.navigationController, navController.viewControllers.count >= 2 {
+        if let navController = self.navigationController, navController.viewControllers.count >= 2 || exists {
             let viewController = navController.viewControllers[navController.viewControllers.count - 2]
-            if viewController is FoodViewController {
+            print(viewController)
+            if viewController is FoodViewController || viewController is UIHostingController<AnyView>{
                 
                 // Therefore, remove the original selected food
                 firebaseManager.removeFood(food: selectedFood!, meal: originalMeal, dateString: dateString!, proteinIntake: proteinIntake) { foodRemoved in

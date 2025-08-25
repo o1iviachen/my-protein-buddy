@@ -232,6 +232,10 @@
                                     <constraint firstItem="HRA-kZ-rWX" firstAttribute="top" secondItem="GuF-5g-nM6" secondAttribute="top" id="nYG-tr-Ngz"/>
                                 </constraints>
                             </scrollView>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="medium" id="e11-uF-20E">
+                                <rect key="frame" x="0.0" y="404" width="393" height="44"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </activityIndicatorView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="3up-Nv-Xp0"/>
                         <color key="backgroundColor" name="AccentColour"/>
@@ -257,6 +261,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="loadingAnimation" destination="e11-uF-20E" id="NKK-A0-X63"/>
                         <outlet property="progressBar" destination="BPP-E8-6a5" id="aLj-jw-cD5"/>
                         <outlet property="progressLabel" destination="4hb-Og-Z03" id="klQ-Pt-VZh"/>
                         <outlet property="tableView" destination="HRA-kZ-rWX" id="OFp-FD-SNw"/>
@@ -944,7 +949,7 @@
         <!--Navigation Controller-->
         <scene sceneID="ffL-Ly-Pkg">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="ITG-Fc-Wph" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="FoodNavController" automaticallyAdjustsScrollViewInsets="NO" id="ITG-Fc-Wph" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="" image="fork.knife" catalog="system" selectedImage="fork.knife" id="Szc-Uh-DbG"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="ajt-4U-X87">
