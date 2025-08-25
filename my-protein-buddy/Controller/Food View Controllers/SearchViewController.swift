@@ -67,8 +67,17 @@ class SearchViewController: UIViewController {
         
         // Register food cell
         resultsTableView.register(UINib(nibName: K.foodCellIdentifier, bundle: nil), forCellReuseIdentifier: K.foodCellIdentifier)
+        configureItems()
     }
     
+    
+    private func configureItems() {
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .camera, target: self, action: #selector(cameraButtonTapped))
+    }
+    
+    @objc func cameraButtonTapped() {
+        performSegue(withIdentifier: K.foodCameraSegue, sender: self)
+    }
     
     @IBAction func searchPressed(_ sender: UIButton) {
         /**

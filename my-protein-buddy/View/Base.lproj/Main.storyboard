@@ -304,10 +304,10 @@
                                 </constraints>
                             </stackView>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cwh-LE-s8a">
-                                <rect key="frame" x="0.0" y="207" width="393" height="528"/>
+                                <rect key="frame" x="0.0" y="207" width="393" height="479"/>
                                 <subviews>
                                     <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="zbV-ay-FeN">
-                                        <rect key="frame" x="0.0" y="0.0" width="393" height="528"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="393" height="479"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     </tableView>
                                 </subviews>
@@ -334,17 +334,38 @@
                             <constraint firstItem="j4N-1R-t4J" firstAttribute="top" secondItem="Rv5-zx-aYo" secondAttribute="top" id="xL1-mW-dwz"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="yVP-Ue-zka"/>
+                    <toolbarItems/>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="loadingAnimation" destination="fVe-fW-i4i" id="Qct-gA-gnv"/>
                         <outlet property="resultsTableView" destination="zbV-ay-FeN" id="Klb-XW-ve8"/>
                         <outlet property="searchTextField" destination="WQs-hi-o85" id="CSD-Mr-h2e"/>
                         <segue destination="qrR-6c-Uej" kind="show" identifier="searchToResult" id="snc-Vg-Qu0"/>
+                        <segue destination="YSz-rd-b9i" kind="show" identifier="foodToCamera" id="Zs2-Uz-e3a"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="b8Q-mJ-qyP" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="5222" y="-1236"/>
+        </scene>
+        <!--Barcode Scanner View Controller-->
+        <scene sceneID="8qq-eu-XOT">
+            <objects>
+                <viewController id="YSz-rd-b9i" customClass="BarcodeScannerViewController" customModule="my_protein_buddy" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="ICc-dI-BHE">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="r4H-wS-83c"/>
+                        <color key="backgroundColor" name="AccentColour"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="lYP-pt-p9g"/>
+                    <connections>
+                        <segue destination="qrR-6c-Uej" kind="show" identifier="cameraToResult" id="Ifn-R7-DbI"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="pIe-7p-FvY" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="6008" y="-1719"/>
         </scene>
         <!--Result View Controller-->
         <scene sceneID="R0Z-gZ-B2G">
@@ -507,7 +528,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wC7-lw-YmY" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="6012.9770992366412" y="-776.05633802816908"/>
+            <point key="canvasLocation" x="6008" y="-776"/>
         </scene>
         <!--Picker View Controller-->
         <scene sceneID="GCy-1G-8s5">
@@ -1347,7 +1368,7 @@
     <inferredMetricsTieBreakers>
         <segue reference="5cV-Le-WvS"/>
         <segue reference="0fQ-Cv-ylB"/>
-        <segue reference="59y-vI-ggX"/>
+        <segue reference="Ifn-R7-DbI"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" name="TextColour"/>
     <resources>
@@ -1367,7 +1388,7 @@
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
         <systemColor name="systemGrayColor">
-            <color red="0.5568627451" green="0.5568627451" blue="0.57647058819999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.55686274509803924" green="0.55686274509803924" blue="0.57647058823529407" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

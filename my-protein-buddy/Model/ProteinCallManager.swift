@@ -43,7 +43,12 @@ struct ProteinCallManager {
             
             // If HTTP method is "GET," the query must be appended to the URL; code from https://docx.syndigo.com/developers/docs/search-item-endpoint
             if httpMethod.uppercased() == "GET" {
-                let url = URL(string: "\(urlString)?nix_item_id=\(query)")!
+                let url: URL
+                if let upc = Int(query) {
+                    url = URL(string: "\(urlString)?upc=\(upc)")!
+                } else {
+                    url = URL(string: "\(urlString)?nix_item_id=\(query)")!
+                }
                 var request = URLRequest(url: url)
                 request.httpMethod = httpMethod
                 request.allHTTPHeaderFields = headers
