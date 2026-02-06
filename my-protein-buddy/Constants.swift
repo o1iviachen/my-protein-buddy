@@ -44,4 +44,5 @@ struct K {
     static let foodEditSegue = "foodToEdit"
     static let tabBarIdentifier = "TabBarController"
     static let welcomeIdentifier = "NavigationController"
+    static let calculatorIdentifier = "CalculatorNavigationController"
 }

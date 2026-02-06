@@ -11,11 +11,12 @@
 import UIKit
 import Firebase
 
-// Default class with pre-existing functions, slightly modified to prevent repetitive login (Line 32-46) 
+// Default class with pre-existing functions, slightly modified to prevent repetitive login (Line 32-46)
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
     var handle: AuthStateDidChangeListenerHandle?
+    let db = Firestore.firestore()
 
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
@@ -25,27 +26,39 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         if let windowScene = scene as? UIWindowScene {
             let window = UIWindow(windowScene: windowScene)
             self.window = window
-            
+
             // Instantiate Storyboard
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
-            
+
             // Determine if there if a user logged in; code from https://stackoverflow.com/questions/37873608/how-do-i-detect-if-a-user-is-already-logged-in-firebase
             handle = Auth.auth().addStateDidChangeListener { auth, user in
-                
-                // If a user is logged in, go to tab bar view controller
-                if user != nil {
-                    let initialViewController = storyboard.instantiateViewController(withIdentifier: K.tabBarIdentifier)
-                    window.rootViewController = initialViewController
+
+                // If a user is logged in, check if they have set their protein goal
+                if let email = user?.email {
+                    self.db.collection("users").document(email).getDocument { document, error in
+                        let proteinGoal = document?.data()?["proteinGoal"] as? Int
+
+                        // If user has protein goal, go to tab bar (existing user)
+                        if proteinGoal != nil {
+                            let initialViewController = storyboard.instantiateViewController(withIdentifier: K.tabBarIdentifier)
+                            window.rootViewController = initialViewController
+                        }
+                        // If no protein goal, go to calculator (new user needs setup)
+                        else {
+                            let initialViewController = storyboard.instantiateViewController(withIdentifier: K.calculatorIdentifier)
+                            window.rootViewController = initialViewController
+                        }
+                    }
                 }
-                
+
                 // If no user is logged in, go to welcome view controller
                 else {
                     let initialViewController = storyboard.instantiateViewController(withIdentifier: K.welcomeIdentifier)
                     window.rootViewController = initialViewController
                 }
             }
-            
-            
+
+
             window.makeKeyAndVisible()
             guard let _ = (scene as? UIWindowScene) else { return }
         }

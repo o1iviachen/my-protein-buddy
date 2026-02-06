@@ -99,10 +99,12 @@ extension SupportViewController: MFMailComposeViewControllerDelegate {
         // Code from https://stackoverflow.com/questions/65743004/swiftui-send-email-using-mfmailcomposeviewcontroller
         if MFMailComposeViewController.canSendMail() {
             let mailComposer = MFMailComposeViewController()
-            
+
             // Prepare email to be sent
             mailComposer.mailComposeDelegate = controller
-            mailComposer.setPreferredSendingEmailAddress((Auth.auth().currentUser!.email)!)
+            if let userEmail = Auth.auth().currentUser?.email {
+                mailComposer.setPreferredSendingEmailAddress(userEmail)
+            }
             mailComposer.setToRecipients(["olivia63chen@gmail.com"])
             mailComposer.setSubject("inquiry about my-protein-buddy.")
             mailComposer.setMessageBody("\(body)", isHTML: false)

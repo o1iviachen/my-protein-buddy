@@ -157,10 +157,10 @@ struct FirebaseManager {
             
             // Loop through the recent foods to create corresponding Food objects
             for food in safeData {
-                let foodObject = parseFirebaseFood(food: food)
-                
-                // Append Food object to recent data list
-                recentData.append(foodObject)
+                if let foodObject = parseFirebaseFood(food: food) {
+                    // Append Food object to recent data list
+                    recentData.append(foodObject)
+                }
             }
             
             let dateManager = DateManager()
@@ -252,10 +252,11 @@ struct FirebaseManager {
                     
                     // Loop through the logged foods in each meal to initialise Food objects
                     for food in foods {
-                        let foodObject = parseFirebaseFood(food: food)
-                        
-                        // Append Food object to table data, index of nested array depends on meal
-                        tableData[mealNames.firstIndex(of: meal)!].append(foodObject)
+                        if let foodObject = parseFirebaseFood(food: food),
+                           let mealIndex = mealNames.firstIndex(of: meal) {
+                            // Append Food object to table data, index of nested array depends on meal
+                            tableData[mealIndex].append(foodObject)
+                        }
                     }
                 }
             }
@@ -282,8 +283,8 @@ struct FirebaseManager {
         if let currentDate = document?.data()?[dateString] as? [String: Any] {
             
             // If protein intake exists, assign it to proteinIntake with two decimal places
-            if let currentProteinIntake = currentDate["proteinIntake"] {
-                proteinIntake = ((currentProteinIntake as! Double)*10).rounded() / 10
+            if let currentProteinIntake = currentDate["proteinIntake"] as? Double {
+                proteinIntake = (currentProteinIntake * 10).rounded() / 10
             }
         }
         
@@ -312,39 +313,51 @@ struct FirebaseManager {
     }
     
     
-    func parseFirebaseFood(food: [String: Any]) -> Food {
+    func parseFirebaseFood(food: [String: Any]) -> Food? {
         /**
          Parses and converts a dictionary from Firebase Firestore into a Food object.
-         
+
          - Parameters:
             - food (Dictionary): Represents a single food entry in Firebase.
-        
-         - Returns: A Food object created from the Firebase Firestore dictionary.
+
+         - Returns: An optional Food object created from the Firebase Firestore dictionary.
          */
-        
-        var measurements: [Measure] = []
-        
-        // Force downcast the food's measures to array of dictionaries since a food must have measures
-        let retrievedMeasures = food["measures"] as! [[String: Any]]
-        for measurement in retrievedMeasures {
-            
-            // Create Measure object using Firebase Firestore data
-            let measureExpression = measurement["measureExpression"] as! String
-            let measureMass = measurement["measureMass"] as! Double
-            let measureObject = Measure(measureExpression: measureExpression, measureMass: measureMass)
-            measurements.append(measureObject)
+
+        // Safely unwrap required fields
+        if let retrievedMeasures = food["measures"] as? [[String: Any]],
+           let selectedMeasureDict = food["selectedMeasure"] as? [String: Any],
+           let foodName = food["food"] as? String,
+           let proteinPerGram = food["proteinPerGram"] as? Double,
+           let brandName = food["brandName"] as? String,
+           let multiplier = food["multiplier"] as? Double,
+           let selectedMeasureExpression = selectedMeasureDict["measureExpression"] as? String,
+           let selectedMeasureMass = selectedMeasureDict["measureMass"] as? Double {
+
+            var measurements: [Measure] = []
+
+            // Parse measures array
+            for measurement in retrievedMeasures {
+                if let measureExpression = measurement["measureExpression"] as? String,
+                   let measureMass = measurement["measureMass"] as? Double {
+                    let measureObject = Measure(measureExpression: measureExpression, measureMass: measureMass)
+                    measurements.append(measureObject)
+                }
+            }
+
+            // Create Food object
+            let foodObject = Food(
+                food: foodName,
+                proteinPerGram: proteinPerGram,
+                brandName: brandName,
+                measures: measurements,
+                selectedMeasure: Measure(measureExpression: selectedMeasureExpression, measureMass: selectedMeasureMass),
+                multiplier: multiplier,
+                consumptionTime: food["consumptionTime"] as? String
+            )
+
+            return foodObject
         }
-        
-        // Create selected measure dictionary by forced downcast since measure must be selected for food to be logged
-        let selectedMeasure = food["selectedMeasure"] as! [String: Any]
-        
-        // Create Food object
-        let foodObject = Food(
-            food: food["food"] as! String,
-            proteinPerGram: food["proteinPerGram"] as! Double, brandName: food["brandName"] as! String,
-            measures: measurements, selectedMeasure: Measure(measureExpression: selectedMeasure["measureExpression"] as! String, measureMass: selectedMeasure["measureMass"] as! Double), multiplier: food["multiplier"] as! Double, consumptionTime: food["consumptionTime"] as? String
-        )
-        
-        return(foodObject)
+
+        return nil
     }
 }

@@ -27,6 +27,7 @@ class ProfileViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var userLabel: UILabel!
     @IBOutlet weak var proteinLabel: UILabel!
+    @IBOutlet weak var loadingAnimation: UIActivityIndicatorView!
 
     
     override func viewDidLoad() {
@@ -60,17 +61,23 @@ class ProfileViewController: UIViewController {
          */
         
         // Set user label text to include user's email
-        userLabel.text = "current user: \((Auth.auth().currentUser?.email)!)"
-        
+        if let email = Auth.auth().currentUser?.email {
+            userLabel.text = "current user: \(email)"
+        }
+
+        // Show loading animation
+        loadingAnimation.isHidden = false
+
         // Fetch user document
         firebaseManager.fetchUserDocument { document in
-            
+
             // Fetch and display protein goal if it exists
             self.firebaseManager.fetchProteinGoal(document: document) { proteinGoal in
+                self.loadingAnimation.isHidden = true
                 if let safeProteinGoal = proteinGoal {
                     self.proteinLabel.text = "protein goal: \(safeProteinGoal) g"
                 }
-                
+
                 // Otherwise, ask user to set their protein goal
                 else {
                     self.proteinLabel.text = "please set your protein goal."

@@ -87,14 +87,14 @@ struct ProteinCallManager {
             
             // Create a data task with the given request
             let task = URLSession.shared.dataTask(with: safeRequest) { (data, response, error) in
-                
+
                 // If data is received successfully
                 if let safeData = data {
-                    
+
                     // Parse JSON into food identifiers
                     proteinRequests = self.parseFoodJSON(foodData: safeData)
                 }
-                
+
                 // Call the completion handler possibly with food identifiers later used for protein requests
                 completion(proteinRequests)
             }

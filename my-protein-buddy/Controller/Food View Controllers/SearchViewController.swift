@@ -23,7 +23,7 @@ class SearchViewController: UIViewController {
     let proteinCallManager = ProteinCallManager()
     let firebaseManager = FirebaseManager()
     let alertManager = AlertManager()
-    var searchList: [Food?] = []
+    var searchList: [Food] = []
     var selectedFood: Food? = nil
     var tapGesture: UITapGestureRecognizer?
     var swipeGesture: UISwipeGestureRecognizer?
@@ -116,48 +116,56 @@ class SearchViewController: UIViewController {
     func getProteinData(foodString: String, completion: @escaping () -> Void) {
         /**
          Gets the protein data after performing a food search with the Nutritionix API.
-         
+
          - Parameters:
             - foodString (String): Indicates the food name to search.
             - completion: Signals when the API call is complete.
          */
-        
+
         let foodRequest = proteinCallManager.prepareRequest(requestString: foodString, urlString: "https://trackapi.nutritionix.com/v2/search/instant", httpMethod: "POST")
-        
+
         // Perform food request from Nutritionix API using the prepared food request
         proteinCallManager.performFoodRequest(request: foodRequest) { results in
             var proteinRequests: [URLRequest?] = []
-            
+
             // Prepare protein requests for all returned common foods
             for result in results[0] {
                 let proteinRequest = self.proteinCallManager.prepareRequest(requestString: result, urlString: "https://trackapi.nutritionix.com/v2/natural/nutrients", httpMethod: "POST")
                 proteinRequests.append(proteinRequest)
             }
-            
+
             // Prepare protein requests for all returned branded foods
             for result in results[1] {
                 let proteinRequest = self.proteinCallManager.prepareRequest(requestString: result, urlString: "https://trackapi.nutritionix.com/v2/search/item", httpMethod: "GET")
                 proteinRequests.append(proteinRequest)
             }
-            
+
             // Create a dispatch group; code from https://stackoverflow.com/questions/49376157/swift-dispatchgroup-notify-before-task-finish
             let dispatchGroup = DispatchGroup()
-            
+
+            // Dictionary to store results with their original index
+            var indexedResults: [Int: Food] = [:]
+            let resultsLock = NSLock()
+
             // Perform protein requests for all foods
-            for proteinRequest in proteinRequests {
+            for (index, proteinRequest) in proteinRequests.enumerated() {
                 dispatchGroup.enter()
                 self.proteinCallManager.performProteinRequest(request: proteinRequest) { parsedFood in
-                    
-                    // If food data was returned, append food data to search list
+
+                    // If food data was returned, store with original index
                     if let safeFood = parsedFood {
-                        self.searchList.append(safeFood)
-                    } 
+                        resultsLock.lock()
+                        indexedResults[index] = safeFood
+                        resultsLock.unlock()
+                    }
                     dispatchGroup.leave()
                 }
             }
-            
+
             // Notify dispatch group that protein requests are complete
             dispatchGroup.notify(queue: .main) {
+                // Sort by original index to preserve API relevance order
+                self.searchList = indexedResults.keys.sorted().compactMap { indexedResults[$0] }
                 completion()
             }
         }
@@ -298,20 +306,20 @@ extension SearchViewController: UITableViewDataSource {
         
         // Dequeue a food cell
         let cell = tableView.dequeueReusableCell(withIdentifier: K.foodCellIdentifier, for: indexPath) as! FoodCell
-        
+
         // Get the required Food object
         let cellFood = searchList[indexPath.row]
-        
+
         // Set the food cell's attributes according to the Food object
-        cell.foodNameLabel.text = cellFood!.food
-        
+        cell.foodNameLabel.text = cellFood.food
+
         // Calculate the consumed mass
-        let descriptionString = "\(cellFood!.brandName), \(String(format: "%.1f", cellFood!.multiplier*cellFood!.selectedMeasure.measureMass)) g"
+        let descriptionString = "\(cellFood.brandName), \(String(format: "%.1f", cellFood.multiplier * cellFood.selectedMeasure.measureMass)) g"
         cell.foodDescriptionLabel.text = descriptionString
-        
+
         // Calculate the protein mass per consumed mass
-        cell.proteinMassLabel.text = "\(String(format: "%.1f", cellFood!.proteinPerGram*cellFood!.multiplier*cellFood!.selectedMeasure.measureMass)) g"
-        
+        cell.proteinMassLabel.text = "\(String(format: "%.1f", cellFood.proteinPerGram * cellFood.multiplier * cellFood.selectedMeasure.measureMass)) g"
+
         return cell
     }
 }

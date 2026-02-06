@@ -50,6 +50,7 @@ class ResultViewController: UIViewController {
     @IBOutlet weak var servingTextField: UITextField!
     @IBOutlet weak var servingMeasureButton: UIButton!
     @IBOutlet weak var mealButton: UIButton!
+    @IBOutlet weak var loadingAnimation: UIActivityIndicatorView!
     
     
     override func viewDidLoad() {
@@ -73,22 +74,37 @@ class ResultViewController: UIViewController {
         
         // Set date string
         dateString = dateManager.formatCurrentDate(dateFormat: "yy_MM_dd")
-        
+
+        // Show loading animation
+        loadingAnimation.isHidden = false
+
         // Fetch user document
         firebaseManager.fetchUserDocument { document in
-            
+
+            // Use DispatchGroup to wait for all fetches to complete before updating UI
+            let dispatchGroup = DispatchGroup()
+
             // Fetch protein goal
+            dispatchGroup.enter()
             self.firebaseManager.fetchProteinGoal(document: document) { fetchedGoal in
                 if let setProteinGoal = fetchedGoal {
                     self.proteinGoal = setProteinGoal
                 }
+                dispatchGroup.leave()
             }
-            
+
             // Fetch protein intake
+            dispatchGroup.enter()
             self.firebaseManager.fetchProteinIntake(dateString: self.dateString!, document: document) { proteinIntake in
-                    self.proteinIntake = proteinIntake
+                self.proteinIntake = proteinIntake
+                dispatchGroup.leave()
             }
-            self.updateUI()
+
+            // Update UI only after all fetches complete
+            dispatchGroup.notify(queue: .main) {
+                self.loadingAnimation.isHidden = true
+                self.updateUI()
+            }
         }
         
         // Picker goes down when screen is tapped outside and swipped
@@ -171,65 +187,80 @@ class ResultViewController: UIViewController {
     @IBAction func addFood(_ sender: UIBarButtonItem) {
         /**
          Logs the newly added food item to Firebase, updates the array of recent foods, and navigates to the previous View Controller.
-         
+
          - Parameters:
             - sender (UIBarButtonItem): Indicates that the user has confirmed their entry and triggers the updates for adding a food item.
          */
-        
-        // Check if UIHostingController is in navigation stack
-        let exists = navigationController?.viewControllers.contains {
-            $0 is UIHostingController<AnyView>
-        } == true
-        
-        // If previous view controller is a FoodViewController, the user was updating their food; code from https://stackoverflow.com/questions/16608536/how-to-get-the-previous-viewcontroller-that-pushed-my-current-view
-        if let navController = self.navigationController, navController.viewControllers.count >= 2 || exists {
-            let viewController = navController.viewControllers[navController.viewControllers.count - 2]
-            print(viewController)
-            if viewController is FoodViewController || viewController is UIHostingController<AnyView>{
-                
-                // Therefore, remove the original selected food
-                firebaseManager.removeFood(food: selectedFood!, meal: originalMeal, dateString: dateString!, proteinIntake: proteinIntake) { foodRemoved in
-                    
-                    // Communicate error to user
-                    if !foodRemoved {
-                        self.alertManager.showAlert(alertMessage: "could not remove previous food.", viewController: self)
+
+        // Validate required data before proceeding
+        if let multiplierText = servingTextField.text,
+           let multiplier = Double(multiplierText),
+           let measure = temporaryMeasure,
+           let date = dateString {
+
+            // Check if UIHostingController is in navigation stack
+            let exists = navigationController?.viewControllers.contains {
+                $0 is UIHostingController<AnyView>
+            } == true
+
+            // If previous view controller is a FoodViewController, the user was updating their food; code from https://stackoverflow.com/questions/16608536/how-to-get-the-previous-viewcontroller-that-pushed-my-current-view
+            if let navController = self.navigationController, navController.viewControllers.count >= 2 || exists {
+                let viewController = navController.viewControllers[navController.viewControllers.count - 2]
+                print(viewController)
+                if viewController is FoodViewController || viewController is UIHostingController<AnyView>{
+
+                    // Therefore, remove the original selected food
+                    if let food = selectedFood {
+                        firebaseManager.removeFood(food: food, meal: originalMeal, dateString: date, proteinIntake: proteinIntake) { foodRemoved in
+
+                            // Communicate error to user
+                            if !foodRemoved {
+                                self.alertManager.showAlert(alertMessage: "could not remove previous food.", viewController: self)
+                            }
+                        }
                     }
                 }
             }
-        }
-        
-        // Modify selected food to new values
-        self.selectedFood!.multiplier = Double(self.servingTextField.text!)!
-        self.selectedFood!.selectedMeasure = self.temporaryMeasure!
-        
-        // Get current time to distinguish duplicate foods as Firebase's arrayUnion function will not save duplicate entries https://cloud.google.com/firestore/docs/manage-data/add-data ; code from https://stackoverflow.com/questions/24070450/how-to-get-the-current-time-as-datetime
-        self.selectedFood!.consumptionTime = dateManager.formatCurrentDate(dateFormat: "yy_MM_dd HH:mm:ss")
-        
-        // Fetch user document
-        firebaseManager.fetchUserDocument { document in
-            
-            // Add new modified food to user's recent foods
-            self.firebaseManager.fetchRecentFoods(document: document) { recentFoods in
-                self.firebaseManager.addToRecentFoods(food: self.selectedFood!, recentFoods: recentFoods)
-            }
-            
-            // Fetch protein intake
-            self.firebaseManager.fetchProteinIntake(dateString: self.dateString!, document: document) { newIntake in
-                                
-                // Log new modified food
-                self.firebaseManager.logFood(food: self.selectedFood!, meal: self.mealButton.currentTitle!, dateString: self.dateString!, proteinIntake: newIntake) { foodAdded in
-                    
-                    // If food was not logged, communicate error to user
-                    if !foodAdded {
-                        self.alertManager.showAlert(alertMessage: "could not add new food.", viewController: self)
+
+            // Modify selected food to new values
+            self.selectedFood?.multiplier = multiplier
+            self.selectedFood?.selectedMeasure = measure
+
+            // Get current time to distinguish duplicate foods as Firebase's arrayUnion function will not save duplicate entries https://cloud.google.com/firestore/docs/manage-data/add-data ; code from https://stackoverflow.com/questions/24070450/how-to-get-the-current-time-as-datetime
+            self.selectedFood?.consumptionTime = dateManager.formatCurrentDate(dateFormat: "yy_MM_dd HH:mm:ss")
+
+            // Fetch user document
+            firebaseManager.fetchUserDocument { document in
+
+                // Add new modified food to user's recent foods
+                if let food = self.selectedFood {
+                    self.firebaseManager.fetchRecentFoods(document: document) { recentFoods in
+                        self.firebaseManager.addToRecentFoods(food: food, recentFoods: recentFoods)
                     }
-                    
-                    // Otherwise, return to previous view controller
-                    else {
-                        self.navigationController?.popViewController(animated: true)
+
+                    // Fetch protein intake
+                    self.firebaseManager.fetchProteinIntake(dateString: date, document: document) { newIntake in
+
+                        // Log new modified food
+                        if let meal = self.mealButton.currentTitle {
+                            self.firebaseManager.logFood(food: food, meal: meal, dateString: date, proteinIntake: newIntake) { foodAdded in
+
+                                // If food was not logged, communicate error to user
+                                if !foodAdded {
+                                    self.alertManager.showAlert(alertMessage: "could not add new food.", viewController: self)
+                                }
+
+                                // Otherwise, return to previous view controller
+                                else {
+                                    self.navigationController?.popViewController(animated: true)
+                                }
+                            }
+                        }
                     }
                 }
             }
+        } else {
+            alertManager.showAlert(alertMessage: "invalid input.", viewController: self)
         }
     }
     
@@ -238,34 +269,41 @@ class ResultViewController: UIViewController {
         /**
          Updates the Results View Controller with the selected food's information, including updating the protein quantity and progress.
          */
-        
-        // Calculate protein in consumed food
-        let calculatedProtein = selectedFood!.proteinPerGram*temporaryMeasure!.measureMass*Double(self.servingTextField.text!)!
-        
-        // Update UI with inputted values
-        foodLabel.text = selectedFood!.food
-        proteinLabel.text = "\(String(format: "%.1f", calculatedProtein)) g"
-        descriptionLabel.text = "\(selectedFood!.brandName), \(String(format: "%.1f", temporaryMeasure!.measureMass*Double(self.servingTextField.text!)!)) g"
-        
-        // Truncate text button if measure expression length is greater than 9
-        if temporaryMeasure!.measureExpression.count < 10 {
-            servingMeasureButton.setTitle(temporaryMeasure!.measureExpression, for: .normal)
-        } else {
-            servingMeasureButton.setTitle("\(String(temporaryMeasure!.measureExpression.prefix(9)))...", for: .normal)
-        }
-        
-        // If protein goal is not nil, calculate the percent of the daily goal the food accounts for
-        if let safeProteinGoal = proteinGoal {
-            let progressPercent = calculatedProtein/Double(safeProteinGoal)
-            progressLabel.text = "this is \(Int(progressPercent*100))% of your protein goal!"
-            progressBar.progress = Float(progressPercent)
-            progressBar.isHidden = false
-        }
-        
-        // Otherwise, tell user to set their protein goal
-        else {
-            progressLabel.text = "please set your protein goal."
-            progressBar.isHidden = true
+
+        // Safely unwrap required values
+        if let food = selectedFood,
+           let measure = temporaryMeasure,
+           let multiplierText = servingTextField.text,
+           let multiplier = Double(multiplierText) {
+
+            // Calculate protein in consumed food
+            let calculatedProtein = food.proteinPerGram * measure.measureMass * multiplier
+
+            // Update UI with inputted values
+            foodLabel.text = food.food
+            proteinLabel.text = "\(String(format: "%.1f", calculatedProtein)) g"
+            descriptionLabel.text = "\(food.brandName), \(String(format: "%.1f", measure.measureMass * multiplier)) g"
+
+            // Truncate text button if measure expression length is greater than 9
+            if measure.measureExpression.count < 10 {
+                servingMeasureButton.setTitle(measure.measureExpression, for: .normal)
+            } else {
+                servingMeasureButton.setTitle("\(String(measure.measureExpression.prefix(9)))...", for: .normal)
+            }
+
+            // If protein goal is not nil, calculate the percent of the daily goal the food accounts for
+            if let safeProteinGoal = proteinGoal {
+                let progressPercent = calculatedProtein / Double(safeProteinGoal)
+                progressLabel.text = "this is \(Int(progressPercent * 100))% of your protein goal!"
+                progressBar.progress = Float(progressPercent)
+                progressBar.isHidden = false
+            }
+
+            // Otherwise, tell user to set their protein goal
+            else {
+                progressLabel.text = "please set your protein goal."
+                progressBar.isHidden = true
+            }
         }
     }
 }

@@ -82,25 +82,37 @@ class FoodViewController: UIViewController {
         
         // Fetch user document in Firebase Firestore; code from https://firebase.google.com/docs/firestore/query-data/get-data
         firebaseManager.fetchUserDocument { document in
-            
-            // Fetch current date's consumed foods and populate table view with foods
+
+            // Use DispatchGroup to wait for all fetches to complete before updating UI
+            let dispatchGroup = DispatchGroup()
+
+            // Fetch current date's consumed foods
+            dispatchGroup.enter()
             self.firebaseManager.fetchFoods(dateString: self.dateString!, document: document) { data in
                 self.tableData = data
-                self.tableView.reloadData()
+                dispatchGroup.leave()
             }
-            
+
             // Fetch current date's current protein intake
+            dispatchGroup.enter()
             self.firebaseManager.fetchProteinIntake(dateString: self.dateString!, document: document) { intake in
                 self.proteinIntake = Double(intake)
+                dispatchGroup.leave()
             }
-            
-            // Fetch protein goal and update progress UI
+
+            // Fetch protein goal
+            dispatchGroup.enter()
             self.firebaseManager.fetchProteinGoal(document: document) { goal in
                 self.proteinGoal = goal
-                self.updateProgressUI()
+                dispatchGroup.leave()
             }
-            
-            self.loadingAnimation.isHidden = true
+
+            // Update UI only after all fetches complete
+            dispatchGroup.notify(queue: .main) {
+                self.tableView.reloadData()
+                self.updateProgressUI()
+                self.loadingAnimation.isHidden = true
+            }
         }
         
         // Change the table view height depending on the number of foods
