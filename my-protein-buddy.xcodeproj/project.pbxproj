@@ -19,7 +19,6 @@
 		582BE0F82D9499460059A4D1 /* ProfileCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 582BE0F62D9499460059A4D1 /* ProfileCell.xib */; };
 		582BE0FC2D949ADF0059A4D1 /* LogOutCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 582BE0FA2D949ADF0059A4D1 /* LogOutCell.xib */; };
 		582BE0FE2D94A2B80059A4D1 /* SelectorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 582BE0FD2D94A2B80059A4D1 /* SelectorViewController.swift */; };
-		582BE1022D94A8340059A4D1 /* SupportViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 582BE1012D94A8340059A4D1 /* SupportViewController.swift */; };
 		582BE1042D94A9D30059A4D1 /* CalculatorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 582BE1032D94A9D30059A4D1 /* CalculatorViewController.swift */; };
 		58528F232D9D937700A107F0 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58528F222D9D937700A107F0 /* SearchViewController.swift */; };
 		5880C36D2DBE1CA100A4B51D /* DateManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5880C36C2DBE1CA100A4B51D /* DateManager.swift */; };
@@ -58,7 +57,6 @@
 		582BE0F62D9499460059A4D1 /* ProfileCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ProfileCell.xib; sourceTree = "<group>"; };
 		582BE0FA2D949ADF0059A4D1 /* LogOutCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LogOutCell.xib; sourceTree = "<group>"; };
 		582BE0FD2D94A2B80059A4D1 /* SelectorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectorViewController.swift; sourceTree = "<group>"; };
-		582BE1012D94A8340059A4D1 /* SupportViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupportViewController.swift; sourceTree = "<group>"; };
 		582BE1032D94A9D30059A4D1 /* CalculatorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalculatorViewController.swift; sourceTree = "<group>"; };
 		58528F222D9D937700A107F0 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		5880C36C2DBE1CA100A4B51D /* DateManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateManager.swift; sourceTree = "<group>"; };
@@ -112,7 +110,6 @@
 			children = (
 				582BE0F12D9497B00059A4D1 /* ProfileViewController.swift */,
 				582BE0FD2D94A2B80059A4D1 /* SelectorViewController.swift */,
-				582BE1012D94A8340059A4D1 /* SupportViewController.swift */,
 				582BE1032D94A9D30059A4D1 /* CalculatorViewController.swift */,
 			);
 			path = "Profile View Controllers";
@@ -350,7 +347,6 @@
 				9FF16E1B2DA431C70043F90D /* AlertManager.swift in Sources */,
 				582934B22D8A1B9B000033C7 /* ProteinCallManager.swift in Sources */,
 				58B29EBD2D9F5CEC002F6FA0 /* PickerViewController.swift in Sources */,
-				582BE1022D94A8340059A4D1 /* SupportViewController.swift in Sources */,
 				582934B42D8A1D3B000033C7 /* TabBarController.swift in Sources */,
 				9F8594A52D88F40200E21AE2 /* PasswordViewController.swift in Sources */,
 				90E424722D78D0D900EF8B8C /* FoodViewController.swift in Sources */,
@@ -516,6 +512,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "my-protein-buddy/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = MyProteinBuddy;
+				INFOPLIST_KEY_NSCameraUsageDescription = "";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -546,6 +543,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "my-protein-buddy/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = MyProteinBuddy;
+				INFOPLIST_KEY_NSCameraUsageDescription = "";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;

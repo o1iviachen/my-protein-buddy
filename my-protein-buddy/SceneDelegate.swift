@@ -43,11 +43,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                             let initialViewController = storyboard.instantiateViewController(withIdentifier: K.tabBarIdentifier)
                             window.rootViewController = initialViewController
                         }
-                        // If no protein goal, go to calculator (new user needs setup)
-                        else {
-                            let initialViewController = storyboard.instantiateViewController(withIdentifier: K.calculatorIdentifier)
-                            window.rootViewController = initialViewController
-                        }
                     }
                 }
 

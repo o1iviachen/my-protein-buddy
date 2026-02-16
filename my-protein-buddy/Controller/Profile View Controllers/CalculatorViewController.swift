@@ -29,7 +29,6 @@ class CalculatorViewController: UIViewController {
     @IBOutlet weak var heightLabel: UILabel!
     @IBOutlet weak var weightLabel: UILabel!
     @IBOutlet weak var activityLabel: UILabel!
-    @IBOutlet weak var ageLabel: UILabel!
     
     @IBAction func heightChanged(_ sender: UISlider) {
         heightLabel.text = "\(String(format: "%.2f", sender.value)) m"

@@ -225,7 +225,13 @@ extension ProfileViewController: UITableViewDelegate {
         } else if indexPath == [0, 0] {
             performSegue(withIdentifier: K.profileCalculatorSegue, sender: self)
         } else if indexPath == [1, 0] {
-            self.performSegue(withIdentifier: K.profileSupportSegue, sender: self)
+            if let url = URL(string: "mailto:ohchen@upei.ca?subject=MyProteinBuddy%20Inquiry") {
+                UIApplication.shared.open(url) { success in
+                    if !success {
+                        self.alertManager.showAlert(alertMessage: "unable to open mail app.", viewController: self)
+                    }
+                }
+            }
         }
         
         tableView.deselectRow(at: indexPath, animated: true)
