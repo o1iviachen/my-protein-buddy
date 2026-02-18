@@ -15,214 +15,228 @@ import Foundation
 
 struct ProteinCallManager {
     /**
-     A structure that interacts with the Nutritionix API to retrieve, process, and manage protein information about foods.
+     A structure that interacts with the FatSecret API to retrieve, process, and manage protein information about foods.
      */
-    
-    let headers = [
-        "Content-Type": "application/x-www-form-urlencoded",
-        "x-app-id": Bundle.main.object(forInfoDictionaryKey: "NUTRITIONIX_APP_ID") as? String ?? "",
-        "x-app-key": Bundle.main.object(forInfoDictionaryKey: "NUTRITIONIX_APP_KEY") as? String ?? "",
-        "x-remote-user-id": "0"
-    ]
-    
-    
-    func prepareRequest(requestString: String?, urlString: String, httpMethod: String) -> URLRequest? {
+
+    private static var accessToken: String?
+    private static var tokenExpiresAt: Date?
+
+    let clientID = Bundle.main.object(forInfoDictionaryKey: "FATSECRET_CLIENT_ID") as? String ?? ""
+    let clientSecret = Bundle.main.object(forInfoDictionaryKey: "FATSECRET_CLIENT_SECRET") as? String ?? ""
+
+
+    func fetchAccessToken(completion: @escaping (String?) -> Void) {
         /**
-         Prepares a request for the Nutritionix API given user-inputed information.
-     
+         Fetches an OAuth 2.0 access token from the FatSecret API using the client credentials grant type. Caches the token until expiry.
+
          - Parameters:
-            - requestString (Optional String): The identifier string to be sent to the API.
-            - urlString (String): The base URL string of the API endpoint.
-            - httpMethod (String): The HTTP method to use.
-         
-         - Returns: An optional URLRequest for the specified API call.
+            - completion (Optional String): A closure called with the access token, or nil if the request fails.
          */
-        
-        // If string is not nil
-        if let query = requestString {
-            
-            // If HTTP method is "GET," the query must be appended to the URL; code from https://docx.syndigo.com/developers/docs/search-item-endpoint
-            if httpMethod.uppercased() == "GET" {
-                let url: URL
-                if let upc = Int(query) {
-                    url = URL(string: "\(urlString)?upc=\(upc)")!
+
+        // Return cached token if still valid
+        if let token = ProteinCallManager.accessToken,
+           let expiresAt = ProteinCallManager.tokenExpiresAt,
+           Date() < expiresAt {
+            completion(token)
+            return
+        }
+
+        let url = URL(string: "https://oauth.fatsecret.com/connect/token")!
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
+
+        let bodyString = "grant_type=client_credentials&client_id=\(clientID)&client_secret=\(clientSecret)&scope=basic"
+        request.httpBody = bodyString.data(using: .utf8)
+
+        let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+            if let error = error {
+                print("[FatSecret] Token error: \(error)")
+                completion(nil)
+                return
+            }
+            guard let safeData = data else {
+                print("[FatSecret] Token: no data")
+                completion(nil)
+                return
+            }
+
+            do {
+                if let json = try JSONSerialization.jsonObject(with: safeData) as? [String: Any],
+                   let token = json["access_token"] as? String,
+                   let expiresIn = json["expires_in"] as? Int {
+                    print("[FatSecret] Token acquired, expires in \(expiresIn)s")
+                    ProteinCallManager.accessToken = token
+                    ProteinCallManager.tokenExpiresAt = Date().addingTimeInterval(TimeInterval(expiresIn - 60))
+                    completion(token)
                 } else {
-                    url = URL(string: "\(urlString)?nix_item_id=\(query)")!
+                    print("[FatSecret] Token response unexpected: \(String(data: safeData, encoding: .utf8) ?? "nil")")
+                    completion(nil)
                 }
-                var request = URLRequest(url: url)
-                request.httpMethod = httpMethod
-                request.allHTTPHeaderFields = headers
-                return request
-            }
-            
-            // Otherwise, encode the query string into Data and set it as the HTTP body; code from https://docx.syndigo.com/developers/docs/natural-language-for-nutrients
-            else {
-                let url = URL(string: urlString)!
-                let bodyString = "query=\(query)"
-                let bodyData = bodyString.data(using: .utf8)
-                var request = URLRequest(url: url)
-                request.httpBody = bodyData
-                request.httpMethod = httpMethod
-                request.allHTTPHeaderFields = headers
-                return request
+            } catch {
+                print("[FatSecret] Token parse error: \(error)")
+                completion(nil)
             }
         }
-        return nil
+        task.resume()
     }
-    
-    
-    func performFoodRequest(request: URLRequest?, completion: @escaping ([[String?]]) -> Void) {
+
+
+    func performFoodSearch(query: String, completion: @escaping ([FSFoodSearchItem]) -> Void) {
         /**
-         Performs a food request for the Nutrionix API with the prepared information.
-         
+         Searches for foods using the FatSecret API.
+
          - Parameters:
-            - request (Optional URLRequest): Previously prepared to search the food.
-            - completion ([[Optional String]]): A closure called with the first array containing the un-branded food names, and the second containing the branded name IDs.
+            - query (String): The food name to search for.
+            - completion (Array): A closure called with an array of food search items.
          */
-        
-        var proteinRequests: [[String?]] = [[], []]
-        
-        // Make sure request is not nil
-        if let safeRequest = request {
-            
-            // Create a data task with the given request
-            let task = URLSession.shared.dataTask(with: safeRequest) { (data, response, error) in
 
-                // If data is received successfully
-                if let safeData = data {
+        fetchAccessToken { token in
+            guard let safeToken = token else {
+                completion([])
+                return
+            }
 
-                    // Parse JSON into food identifiers
-                    proteinRequests = self.parseFoodJSON(foodData: safeData)
+            let encodedQuery = query.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? query
+            let urlString = "https://platform.fatsecret.com/rest/foods/search/v1?search_expression=\(encodedQuery)&format=json&max_results=20"
+
+            guard let url = URL(string: urlString) else {
+                completion([])
+                return
+            }
+
+            var request = URLRequest(url: url)
+            request.httpMethod = "GET"
+            request.setValue("Bearer \(safeToken)", forHTTPHeaderField: "Authorization")
+
+            let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+                if let error = error {
+                    print("[FatSecret] Search error: \(error)")
+                    completion([])
+                    return
+                }
+                guard let safeData = data else {
+                    print("[FatSecret] Search: no data")
+                    completion([])
+                    return
                 }
 
-                // Call the completion handler possibly with food identifiers later used for protein requests
-                completion(proteinRequests)
+                print("[FatSecret] Search response: \(String(data: safeData, encoding: .utf8) ?? "nil")")
+
+                do {
+                    let decoded = try JSONDecoder().decode(FSSearchResponse.self, from: safeData)
+                    print("[FatSecret] Search found \(decoded.foods.food.count) foods")
+                    completion(decoded.foods.food)
+                } catch {
+                    print("[FatSecret] Search decode error: \(error)")
+                    completion([])
+                }
             }
-            
-            // Start task
             task.resume()
         }
     }
-    
-    
-    func parseFoodJSON(foodData: Data) -> [[String?]] {
+
+
+    func fetchFoodDetails(foodID: String, completion: @escaping (Food?) -> Void) {
         /**
-         Parses JSON data from the Nutritionix API into a list of food names and IDs.
-         
+         Fetches detailed food information from the FatSecret API and parses it into a Food object.
+
          - Parameters:
-            - foodData (Data): The raw data retrieved from the API.
-         
-         - Returns: A 2D array with list of common food names, and a second list of branded food IDs.
+            - foodID (String): The FatSecret food ID to look up.
+            - completion (Optional Food): A closure called with the parsed Food object, or nil if the request fails.
          */
-        
-        var foodList: [[String?]] = [[], []]
-        let decoder = JSONDecoder()
-        
-        // Try to decode results from Nutritionix API from searching a food string
-        do {
-            let decodedData = try decoder.decode(FoodData.self, from: foodData)
-            
-            // Append food identifiers to the food list
-            for food in decodedData.common {
-                foodList[0].append(food.food_name)
+
+        fetchAccessToken { token in
+            guard let safeToken = token else {
+                completion(nil)
+                return
             }
-            for food in decodedData.branded {
-                foodList[1].append(food.nix_item_id)
+
+            let urlString = "https://platform.fatsecret.com/rest/food/v4?food_id=\(foodID)&format=json"
+
+            guard let url = URL(string: urlString) else {
+                completion(nil)
+                return
             }
-        } catch {}
-        return foodList
-    }
-    
-    
-    func performProteinRequest(request: URLRequest?, completion: @escaping (Food?) -> Void) {
-        /**
-         Performs a protein request for the Nutrionix API with the prepared information.
-         
-         - Parameters:
-            - request (Optional URLRequest): Previously prepared to search the food.
-            - completion (Optional Food): A closure called with Food objects the user can log.
-         */
-        
-        var proteinFood: Food? = nil
-        
-        // Make sure request is not nil
-        if let safeRequest = request {
-            
-            // Create a data task with the given request
-            let task = URLSession.shared.dataTask(with: safeRequest) { (data, response, error) in
-                
-                // If data is received successfully
-                if let safeData = data {
-                    
-                    // Parse JSON into a Food object
-                    if let food = self.parseProteinJSON(proteinData: safeData) {
-                        proteinFood = food
-                    }
+
+            var request = URLRequest(url: url)
+            request.httpMethod = "GET"
+            request.setValue("Bearer \(safeToken)", forHTTPHeaderField: "Authorization")
+
+            let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+                guard let safeData = data else {
+                    completion(nil)
+                    return
                 }
-                
-                // Call the completion handler possibly with functional Food object users can log
-                completion(proteinFood)
+
+                let food = self.parseFoodDetail(data: safeData)
+                completion(food)
             }
-            
-            // Start task
             task.resume()
         }
     }
-    
-    
-    func parseProteinJSON(proteinData: Data) -> Food? {
+
+
+    func parseFoodDetail(data: Data) -> Food? {
         /**
-         Parses JSON data from the Nutritionix API to retrieve food, fiber, and measurement information.
-         
+         Parses JSON data from the FatSecret API into a Food object with measures.
+
          - Parameters:
-            - proteinData (Data): The raw data retrieved from the API.
-         
+            - data (Data): The raw data retrieved from the API.
+
          - Returns: An Optional Food object parsed from the JSON.
          */
-        
-        let decoder = JSONDecoder()
-        
-        // Try to decode food-specific nutrient data from Nutritionix API
+
         do {
-            let decodedData = try decoder.decode(ProteinData.self, from: proteinData)
-            
-            // Create Food object from Nutrionix API JSON
-            let food = decodedData.foods[0]
-            let foodName = food.food_name
-            let brandName = food.brand_name ?? "unbranded"
-            let servingProtein = food.nf_protein
-            let servingQuantity = food.serving_qty
-            let servingUnit = food.serving_unit
-            let servingGrams = food.serving_weight_grams
-            
-            // Create property values for the Food object's selected measure
-            let servingExpression = "\(servingQuantity) \(servingUnit)"
-            let servingMeasure = Measure(measureExpression: servingExpression, measureMass: servingGrams)
-            
-            // Calculate the protein per gram for the Food object
-            let proteinPerGram = servingProtein/servingGrams
-            
-            var altMeasures: [Measure] = []
-            altMeasures.append(servingMeasure)
-            
-            // Create Measure objects from Nutrionix API JSON
-            if let toParseMeasures = food.alt_measures {
-                for altMeasure in toParseMeasures {
-                    let measureQuantity = altMeasure.qty
-                    let measure = altMeasure.measure
-                    let measureMass = altMeasure.serving_weight
-                    let altMeasureExpression = "\(measureQuantity) \(measure)"
-                    let parsedMeasure = Measure(measureExpression: altMeasureExpression, measureMass: measureMass)
-                    altMeasures.append(parsedMeasure)
+            let decoded = try JSONDecoder().decode(FSFoodDetailResponse.self, from: data)
+            let foodDetail = decoded.food
+            let servings = foodDetail.servings.serving
+
+            guard let firstServing = servings.first else { return nil }
+
+            let foodName = foodDetail.food_name.lowercased()
+            let brandName = (foodDetail.brand_name ?? "unbranded").lowercased()
+
+            // Build measures from all servings
+            var measures: [Measure] = []
+            var defaultMeasure: Measure?
+
+            for serving in servings {
+                guard let metricAmountStr = serving.metric_serving_amount,
+                      let metricAmount = Double(metricAmountStr),
+                      metricAmount > 0 else { continue }
+
+                let expression = "\(serving.number_of_units) \(serving.measurement_description)".lowercased()
+                let measure = Measure(measureExpression: expression, measureMass: metricAmount)
+                measures.append(measure)
+
+                if defaultMeasure == nil {
+                    defaultMeasure = measure
                 }
             }
-            
-            let parsedFood = Food(food: foodName, proteinPerGram: proteinPerGram, brandName: brandName, measures: altMeasures, selectedMeasure: servingMeasure, multiplier: 1.0, consumptionTime: nil)
-            return parsedFood
-        }
-        
-        // If an error occurs, return nil
-        catch {
+
+            // Fallback if no measures were created
+            if measures.isEmpty {
+                return nil
+            }
+
+            let selectedMeasure = defaultMeasure ?? measures[0]
+
+            // Calculate protein per gram from the first serving with metric data
+            let proteinValue = Double(firstServing.protein) ?? 0.0
+            let metricAmount = Double(firstServing.metric_serving_amount ?? "0") ?? 0.0
+            let proteinPerGram = metricAmount > 0 ? proteinValue / metricAmount : 0.0
+
+            return Food(
+                food: foodName,
+                proteinPerGram: proteinPerGram,
+                brandName: brandName,
+                measures: measures,
+                selectedMeasure: selectedMeasure,
+                multiplier: 1.0,
+                consumptionTime: nil
+            )
+        } catch {
             return nil
         }
     }

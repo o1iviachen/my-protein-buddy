@@ -13,10 +13,10 @@
 			</array>
 		</dict>
 	</array>
-	<key>NUTRITIONIX_APP_ID</key>
-	<string>$(NUTRITIONIX_APP_ID)</string>
-	<key>NUTRITIONIX_APP_KEY</key>
-	<string>$(NUTRITIONIX_APP_KEY)</string>
+	<key>FATSECRET_CLIENT_ID</key>
+	<string>$(FATSECRET_CLIENT_ID)</string>
+	<key>FATSECRET_CLIENT_SECRET</key>
+	<string>$(FATSECRET_CLIENT_SECRET)</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>

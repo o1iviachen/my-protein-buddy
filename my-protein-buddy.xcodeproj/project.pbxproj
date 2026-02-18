@@ -30,7 +30,6 @@
 		58B29EB92D9D9BEC002F6FA0 /* ResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58B29EB82D9D9BEC002F6FA0 /* ResultViewController.swift */; };
 		58B29EBB2D9D9F96002F6FA0 /* FirebaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58B29EBA2D9D9F96002F6FA0 /* FirebaseManager.swift */; };
 		58B29EBD2D9F5CEC002F6FA0 /* PickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58B29EBC2D9F5CEC002F6FA0 /* PickerViewController.swift */; };
-		58B7D5862E5C7BBC005DE25D /* BarcodeScannerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58B7D5852E5C7BB6005DE25D /* BarcodeScannerViewController.swift */; };
 		58D361752DE74B3A00FCB70E /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 58D361742DE74B3A00FCB70E /* GoogleService-Info.plist */; };
 		58FC741E2D91CF500007FC3E /* FoodCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58FC741C2D91CF500007FC3E /* FoodCell.swift */; };
 		58FC741F2D91CF500007FC3E /* FoodCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 58FC741D2D91CF500007FC3E /* FoodCell.xib */; };
@@ -70,7 +69,6 @@
 		58B29EB82D9D9BEC002F6FA0 /* ResultViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultViewController.swift; sourceTree = "<group>"; };
 		58B29EBA2D9D9F96002F6FA0 /* FirebaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseManager.swift; sourceTree = "<group>"; };
 		58B29EBC2D9F5CEC002F6FA0 /* PickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickerViewController.swift; sourceTree = "<group>"; };
-		58B7D5852E5C7BB6005DE25D /* BarcodeScannerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarcodeScannerViewController.swift; sourceTree = "<group>"; };
 		58D361742DE74B3A00FCB70E /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		58D3617A2DE74BFF00FCB70E /* Secrets.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Secrets.xcconfig; sourceTree = "<group>"; };
 		58FC741C2D91CF500007FC3E /* FoodCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodCell.swift; sourceTree = "<group>"; };
@@ -118,7 +116,6 @@
 		582BE1072D94B60B0059A4D1 /* Food View Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				58B7D5852E5C7BB6005DE25D /* BarcodeScannerViewController.swift */,
 				90E424712D78D0A400EF8B8C /* FoodViewController.swift */,
 				58528F222D9D937700A107F0 /* SearchViewController.swift */,
 				58B29EB82D9D9BEC002F6FA0 /* ResultViewController.swift */,
@@ -363,7 +360,6 @@
 				58528F232D9D937700A107F0 /* SearchViewController.swift in Sources */,
 				582BE0F42D9497BF0059A4D1 /* Setting.swift in Sources */,
 				5880C36D2DBE1CA100A4B51D /* DateManager.swift in Sources */,
-				58B7D5862E5C7BBC005DE25D /* BarcodeScannerViewController.swift in Sources */,
 				5892A8712D7B5BB400304BF0 /* Food.swift in Sources */,
 				582BE1042D94A9D30059A4D1 /* CalculatorViewController.swift in Sources */,
 				582BE0FE2D94A2B80059A4D1 /* SelectorViewController.swift in Sources */,
@@ -512,7 +508,6 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "my-protein-buddy/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = MyProteinBuddy;
-				INFOPLIST_KEY_NSCameraUsageDescription = "";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -543,7 +538,6 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "my-protein-buddy/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = MyProteinBuddy;
-				INFOPLIST_KEY_NSCameraUsageDescription = "";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;

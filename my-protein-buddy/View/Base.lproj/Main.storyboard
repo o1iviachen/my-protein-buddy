@@ -346,31 +346,11 @@
                         <outlet property="resultsTableView" destination="zbV-ay-FeN" id="Klb-XW-ve8"/>
                         <outlet property="searchTextField" destination="WQs-hi-o85" id="CSD-Mr-h2e"/>
                         <segue destination="qrR-6c-Uej" kind="show" identifier="searchToResult" id="snc-Vg-Qu0"/>
-                        <segue destination="YSz-rd-b9i" kind="show" identifier="foodToCamera" id="Zs2-Uz-e3a"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="b8Q-mJ-qyP" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="5222" y="-1236"/>
-        </scene>
-        <!--Barcode Scanner View Controller-->
-        <scene sceneID="8qq-eu-XOT">
-            <objects>
-                <viewController id="YSz-rd-b9i" customClass="BarcodeScannerViewController" customModule="my_protein_buddy" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="ICc-dI-BHE">
-                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <viewLayoutGuide key="safeArea" id="r4H-wS-83c"/>
-                        <color key="backgroundColor" name="AccentColour"/>
-                    </view>
-                    <navigationItem key="navigationItem" id="lYP-pt-p9g"/>
-                    <connections>
-                        <segue destination="qrR-6c-Uej" kind="show" identifier="cameraToResult" id="Ifn-R7-DbI"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="pIe-7p-FvY" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="6008" y="-1719"/>
         </scene>
         <!--Result View Controller-->
         <scene sceneID="R0Z-gZ-B2G">
@@ -1266,7 +1246,6 @@
     <inferredMetricsTieBreakers>
         <segue reference="5cV-Le-WvS"/>
         <segue reference="4af-VQ-aJX"/>
-        <segue reference="Ifn-R7-DbI"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" name="TextColour"/>
     <resources>

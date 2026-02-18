@@ -28,8 +28,6 @@ struct K {
     static let calculatorProSegue = "calculatorToPro"
     static let proMainSegue = "proToMain"
     static let logInCalculatorSegue = "logInToCalculator"
-    static let foodCameraSegue = "foodToCamera"
-    static let cameraResultSegue = "cameraToResult"
     static let profileSelectorSegue = "profileToSelector"
     static let profileCalculatorSegue = "profileToCalculator"
     static let profilePasswordSegue = "profileToPassword"

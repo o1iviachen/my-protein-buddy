@@ -13,7 +13,7 @@ import Foundation
 struct Food: Codable {
     /**
      A structure that organises properties of food items, and allows properties to be readable and writable.
-     
+
      - Properties:
         - food (String): The name of the food item.
         - proteinPerGram (Double): The amount of protein per gram for the food item.
@@ -23,7 +23,7 @@ struct Food: Codable {
         - multiplier (Double): A value to convert between measures.
         - consumptionTime (Optional String): The timestamp at which the food was consumed, if applicable.
      */
-    
+
     let food: String
     let proteinPerGram: Double
     let brandName: String
@@ -33,71 +33,119 @@ struct Food: Codable {
     var consumptionTime: String?
 }
 
-struct FoodData: Decodable {
+// MARK: - FatSecret Search Response
+struct FSSearchResponse: Decodable {
     /**
-     A structure that reads the food data from a JSON response and separates the food items in different categories.
-     
+     A structure that reads the search results from a FatSecret API JSON response.
+
      - Properties:
-        - common (Array): An array of common food items.
-        - branded (Array): An array of branded food products.
+        - foods (FSFoodList): The search results container.
     */
-    
-    let common: [CommonFoodRequest]
-    let branded: [BrandedFoodRequest]
+
+    let foods: FSFoodList
 }
 
-struct CommonFoodRequest: Decodable {
+struct FSFoodList: Decodable {
     /**
-     A structure that reads common food item returned from a JSON response.
-     
+     A structure that contains the array of food items from a FatSecret API JSON response.
+
      - Properties:
+        - food (Array): An array of food search results.
+    */
+
+    let food: [FSFoodSearchItem]
+}
+
+struct FSFoodSearchItem: Decodable {
+    /**
+     A structure that reads a food item from the FatSecret search results.
+
+     - Properties:
+        - food_id (String): The unique FatSecret identifier for the food item.
         - food_name (String): The name of the food item.
+        - brand_name (Optional String): The brand name, if applicable.
+        - food_type (String): The type of food (Generic or Brand).
     */
-    
+
+    let food_id: String
     let food_name: String
-}
-
-struct BrandedFoodRequest: Decodable {
-    /**
-     A structure that reads a branded food product returned from a JSON response.
-     
-     - Properties:
-        - nix_item_id (String): The unique Nutritionix API identifier for the branded item in the food database.
-    */
-    
-    let nix_item_id: String
-}
-
-struct ProteinData: Decodable {
-    /**
-     A structure that reads the root object returned by a JSON response.
-     
-     - Properties:
-        - food (Array): An array of raw food items containing protein and measurement information.
-     */
-    
-    let foods: [RawFood]
-}
-
-struct RawFood: Decodable {
-    /**
-     A structure that organizes the properties of food items read from a JSON reponse.
-     
-     - Properties:
-         - food_name (String): The name of the food item.
-         - nf_dietary_fiber (Double): The amount of protein per unit.
-         - brand_name (Optional String): The brand of the food, if applicable.
-         - alt_measures (Optional Array): An array of alternative measurement units, if available.
-         - serving_qty (Int): The default serving quantity.
-         - serving_unit (String): The unit for the default serving quantity.
-         - serving_weight_grams (Double): The weight in grams for the default serving size.
-     */
-    
-    let food_name: String
-    let nf_protein: Double
     let brand_name: String?
-    let alt_measures: [RawMeasure]?
-    let serving_qty: Int
-    let serving_unit: String
-    let serving_weight_grams: Double
+    let food_type: String
+}
+
+// MARK: - FatSecret Food Detail Response
+struct FSFoodDetailResponse: Decodable {
+    /**
+     A structure that reads the detailed food data from a FatSecret API JSON response.
+
+     - Properties:
+        - food (FSFoodDetail): The detailed food object.
+    */
+
+    let food: FSFoodDetail
+}
+
+struct FSFoodDetail: Decodable {
+    /**
+     A structure that contains the detailed food information from a FatSecret API JSON response.
+
+     - Properties:
+        - food_id (String): The unique FatSecret identifier.
+        - food_name (String): The name of the food item.
+        - brand_name (Optional String): The brand name, if applicable.
+        - servings (FSServingsContainer): The servings container.
+    */
+
+    let food_id: String
+    let food_name: String
+    let brand_name: String?
+    let servings: FSServingsContainer
+}
+
+struct FSServingsContainer: Decodable {
+    /**
+     A structure that wraps the serving data, handling both single and array responses.
+
+     - Properties:
+        - serving (Array): An array of serving options.
+    */
+
+    let serving: [FSServing]
+
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        // FatSecret may return a single object or an array for "serving"
+        if let array = try? container.decode([FSServing].self, forKey: .serving) {
+            serving = array
+        } else if let single = try? container.decode(FSServing.self, forKey: .serving) {
+            serving = [single]
+        } else {
+            serving = []
+        }
+    }
+
+    enum CodingKeys: String, CodingKey {
+        case serving
+    }
+}
+
+struct FSServing: Decodable {
+    /**
+     A structure that reads a serving option from the FatSecret API JSON response.
+
+     - Properties:
+        - serving_description (String): A textual description of the serving (e.g. "1 breast").
+        - metric_serving_amount (Optional String): The mass in grams for the serving.
+        - metric_serving_unit (Optional String): The unit for the metric serving (e.g. "g").
+        - number_of_units (String): The number of units for this serving.
+        - measurement_description (String): The measurement name (e.g. "breast").
+        - protein (String): The protein content for this serving.
+    */
+
+    let serving_description: String
+    let metric_serving_amount: String?
+    let metric_serving_unit: String?
+    let number_of_units: String
+    let measurement_description: String
+    let protein: String
 }

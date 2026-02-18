@@ -67,17 +67,8 @@ class SearchViewController: UIViewController {
         
         // Register food cell
         resultsTableView.register(UINib(nibName: K.foodCellIdentifier, bundle: nil), forCellReuseIdentifier: K.foodCellIdentifier)
-        configureItems()
     }
     
-    
-    private func configureItems() {
-        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .camera, target: self, action: #selector(cameraButtonTapped))
-    }
-    
-    @objc func cameraButtonTapped() {
-        performSegue(withIdentifier: K.foodCameraSegue, sender: self)
-    }
     
     @IBAction func searchPressed(_ sender: UIButton) {
         /**
@@ -115,42 +106,27 @@ class SearchViewController: UIViewController {
     
     func getProteinData(foodString: String, completion: @escaping () -> Void) {
         /**
-         Gets the protein data after performing a food search with the Nutritionix API.
+         Gets the protein data after performing a food search with the FatSecret API.
 
          - Parameters:
             - foodString (String): Indicates the food name to search.
             - completion: Signals when the API call is complete.
          */
 
-        let foodRequest = proteinCallManager.prepareRequest(requestString: foodString, urlString: "https://trackapi.nutritionix.com/v2/search/instant", httpMethod: "POST")
+        // Search for foods using FatSecret API
+        proteinCallManager.performFoodSearch(query: foodString) { searchResults in
 
-        // Perform food request from Nutritionix API using the prepared food request
-        proteinCallManager.performFoodRequest(request: foodRequest) { results in
-            var proteinRequests: [URLRequest?] = []
-
-            // Prepare protein requests for all returned common foods
-            for result in results[0] {
-                let proteinRequest = self.proteinCallManager.prepareRequest(requestString: result, urlString: "https://trackapi.nutritionix.com/v2/natural/nutrients", httpMethod: "POST")
-                proteinRequests.append(proteinRequest)
-            }
-
-            // Prepare protein requests for all returned branded foods
-            for result in results[1] {
-                let proteinRequest = self.proteinCallManager.prepareRequest(requestString: result, urlString: "https://trackapi.nutritionix.com/v2/search/item", httpMethod: "GET")
-                proteinRequests.append(proteinRequest)
-            }
-
-            // Create a dispatch group; code from https://stackoverflow.com/questions/49376157/swift-dispatchgroup-notify-before-task-finish
+            // Create a dispatch group to fetch details for all search results
             let dispatchGroup = DispatchGroup()
 
             // Dictionary to store results with their original index
             var indexedResults: [Int: Food] = [:]
             let resultsLock = NSLock()
 
-            // Perform protein requests for all foods
-            for (index, proteinRequest) in proteinRequests.enumerated() {
+            // Fetch detailed food information for each search result
+            for (index, searchItem) in searchResults.enumerated() {
                 dispatchGroup.enter()
-                self.proteinCallManager.performProteinRequest(request: proteinRequest) { parsedFood in
+                self.proteinCallManager.fetchFoodDetails(foodID: searchItem.food_id) { parsedFood in
 
                     // If food data was returned, store with original index
                     if let safeFood = parsedFood {
@@ -162,7 +138,7 @@ class SearchViewController: UIViewController {
                 }
             }
 
-            // Notify dispatch group that protein requests are complete
+            // Notify dispatch group that all detail requests are complete
             dispatchGroup.notify(queue: .main) {
                 // Sort by original index to preserve API relevance order
                 self.searchList = indexedResults.keys.sorted().compactMap { indexedResults[$0] }
