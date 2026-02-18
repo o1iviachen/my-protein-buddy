@@ -70,16 +70,12 @@ struct CalendarScene: View {
                     }
                 Spacer()
                 Spacer()
-                // Triggers the FoodView for the user's selected date to be displayed
-                NavigationLink(
-                    destination: Group {
-                        if let date = selectedDate {
-                            FoodView(date: date)
-                        }
-                    },
-                    isActive: $navigate,
-                    label: { EmptyView() }
-                )
+            }
+            // Triggers the FoodView for the user's selected date to be displayed
+            .navigationDestination(isPresented: $navigate) {
+                if let date = selectedDate {
+                    FoodView(date: date)
+                }
             }
             .padding(.horizontal)
             .background(Color(red: 255/255, green: 240/255, blue: 219/255))
