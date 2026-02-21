@@ -27,11 +27,14 @@ struct AlertManager {
         
         // Create alert with message argument
         let alert = UIAlertController(title: "alert", message: alertMessage, preferredStyle: UIAlertController.Style.alert)
-        
+
+        // Set alert button colour to dark brown
+        alert.view.tintColor = UIColor(red: 102/255, green: 51/255, blue: 0/255, alpha: 1)
+
         // Add dismiss option that can call a chosen function
         alert.addAction(UIAlertAction(title: "dismiss", style: UIAlertAction.Style.default, handler: { _ in onDismiss?()
         }))
-        
+
         // Present alert on chosen view controller
         viewController.present(alert, animated: true, completion: nil)
     }
