@@ -20,6 +20,8 @@
 		582BE0FC2D949ADF0059A4D1 /* LogOutCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 582BE0FA2D949ADF0059A4D1 /* LogOutCell.xib */; };
 		582BE0FE2D94A2B80059A4D1 /* SelectorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 582BE0FD2D94A2B80059A4D1 /* SelectorViewController.swift */; };
 		582BE1042D94A9D30059A4D1 /* CalculatorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 582BE1032D94A9D30059A4D1 /* CalculatorViewController.swift */; };
+		584D36CC2F496AE900BFF868 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 584D36CB2F496AE900BFF868 /* PrivacyInfo.xcprivacy */; };
+		584D36CE2F4977E000BFF868 /* WelcomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 584D36CD2F4977E000BFF868 /* WelcomeViewController.swift */; };
 		58528F232D9D937700A107F0 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58528F222D9D937700A107F0 /* SearchViewController.swift */; };
 		5880C36D2DBE1CA100A4B51D /* DateManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5880C36C2DBE1CA100A4B51D /* DateManager.swift */; };
 		5892A8712D7B5BB400304BF0 /* Food.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5892A8702D7B5BB400304BF0 /* Food.swift */; };
@@ -34,16 +36,14 @@
 		58FC741E2D91CF500007FC3E /* FoodCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58FC741C2D91CF500007FC3E /* FoodCell.swift */; };
 		58FC741F2D91CF500007FC3E /* FoodCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 58FC741D2D91CF500007FC3E /* FoodCell.xib */; };
 		90E424722D78D0D900EF8B8C /* FoodViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90E424712D78D0A400EF8B8C /* FoodViewController.swift */; };
-		9B30B3AA65A45701FAE8B9E9 /* Pods_my_protein_buddy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 428FEC0F9AAE093EA091F0FD /* Pods_my_protein_buddy.framework */; };
 		9F1A2B4C2D7B661600A432CF /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F1A2B4B2D7B661600A432CF /* Constants.swift */; };
 		9F2358AB2D942F3D001B3F1A /* CalendarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F2358AA2D942F3D001B3F1A /* CalendarViewController.swift */; };
 		9F8594A52D88F40200E21AE2 /* PasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F8594A42D88F40200E21AE2 /* PasswordViewController.swift */; };
 		9FF16E1B2DA431C70043F90D /* AlertManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FF16E1A2DA431C70043F90D /* AlertManager.swift */; };
+		E53D48A4DBC3F05CC6E8C479 /* Pods_my_protein_buddy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D5361E3F6E38FCF0BA94F0D /* Pods_my_protein_buddy.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		0D20D7676B73316AA4A7A4B8 /* Pods-my-protein-buddy.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-my-protein-buddy.debug.xcconfig"; path = "Target Support Files/Pods-my-protein-buddy/Pods-my-protein-buddy.debug.xcconfig"; sourceTree = "<group>"; };
-		428FEC0F9AAE093EA091F0FD /* Pods_my_protein_buddy.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_my_protein_buddy.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5807550E2DE7571C00F50835 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		582934AB2D8514E2000033C7 /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
 		582934AD2D851A4B000033C7 /* LogInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInViewController.swift; sourceTree = "<group>"; };
@@ -57,6 +57,8 @@
 		582BE0FA2D949ADF0059A4D1 /* LogOutCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LogOutCell.xib; sourceTree = "<group>"; };
 		582BE0FD2D94A2B80059A4D1 /* SelectorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectorViewController.swift; sourceTree = "<group>"; };
 		582BE1032D94A9D30059A4D1 /* CalculatorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalculatorViewController.swift; sourceTree = "<group>"; };
+		584D36CB2F496AE900BFF868 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		584D36CD2F4977E000BFF868 /* WelcomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeViewController.swift; sourceTree = "<group>"; };
 		58528F222D9D937700A107F0 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		5880C36C2DBE1CA100A4B51D /* DateManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateManager.swift; sourceTree = "<group>"; };
 		5892A8702D7B5BB400304BF0 /* Food.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Food.swift; sourceTree = "<group>"; };
@@ -74,11 +76,13 @@
 		58FC741C2D91CF500007FC3E /* FoodCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodCell.swift; sourceTree = "<group>"; };
 		58FC741D2D91CF500007FC3E /* FoodCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FoodCell.xib; sourceTree = "<group>"; };
 		90E424712D78D0A400EF8B8C /* FoodViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodViewController.swift; sourceTree = "<group>"; };
+		9D5361E3F6E38FCF0BA94F0D /* Pods_my_protein_buddy.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_my_protein_buddy.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9F1A2B4B2D7B661600A432CF /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		9F2358AA2D942F3D001B3F1A /* CalendarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarViewController.swift; sourceTree = "<group>"; };
 		9F8594A42D88F40200E21AE2 /* PasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordViewController.swift; sourceTree = "<group>"; };
 		9FF16E1A2DA431C70043F90D /* AlertManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertManager.swift; sourceTree = "<group>"; };
-		A4DD646D67EAD29620EF8E40 /* Pods-my-protein-buddy.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-my-protein-buddy.release.xcconfig"; path = "Target Support Files/Pods-my-protein-buddy/Pods-my-protein-buddy.release.xcconfig"; sourceTree = "<group>"; };
+		D0037AA65D64F65E87DAA1FA /* Pods-my-protein-buddy.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-my-protein-buddy.debug.xcconfig"; path = "Target Support Files/Pods-my-protein-buddy/Pods-my-protein-buddy.debug.xcconfig"; sourceTree = "<group>"; };
+		E9833FAC4494DE34F8F7A9EC /* Pods-my-protein-buddy.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-my-protein-buddy.release.xcconfig"; path = "Target Support Files/Pods-my-protein-buddy/Pods-my-protein-buddy.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -86,16 +90,25 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9B30B3AA65A45701FAE8B9E9 /* Pods_my_protein_buddy.framework in Frameworks */,
+				E53D48A4DBC3F05CC6E8C479 /* Pods_my_protein_buddy.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		18D2442C36CF37DB3905077D /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				9D5361E3F6E38FCF0BA94F0D /* Pods_my_protein_buddy.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		582BE1052D94B5E10059A4D1 /* Welcome Flow View Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				584D36CD2F4977E000BFF868 /* WelcomeViewController.swift */,
 				582934AB2D8514E2000033C7 /* SignUpViewController.swift */,
 				582934AD2D851A4B000033C7 /* LogInViewController.swift */,
 				9F8594A42D88F40200E21AE2 /* PasswordViewController.swift */,
@@ -144,7 +157,7 @@
 				589FADF22D6E34DA007890AB /* my-protein-buddy */,
 				589FADF12D6E34DA007890AB /* Products */,
 				846CE356C5EB6AFAB1D2EF6D /* Pods */,
-				8F109333CA1E8B5AEE615D42 /* Frameworks */,
+				18D2442C36CF37DB3905077D /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -159,6 +172,7 @@
 		589FADF22D6E34DA007890AB /* my-protein-buddy */ = {
 			isa = PBXGroup;
 			children = (
+				584D36CB2F496AE900BFF868 /* PrivacyInfo.xcprivacy */,
 				589FADF32D6E34DA007890AB /* AppDelegate.swift */,
 				589FADF52D6E34DA007890AB /* SceneDelegate.swift */,
 				5892A86F2D7B5BA800304BF0 /* Model */,
@@ -202,18 +216,10 @@
 		846CE356C5EB6AFAB1D2EF6D /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				0D20D7676B73316AA4A7A4B8 /* Pods-my-protein-buddy.debug.xcconfig */,
-				A4DD646D67EAD29620EF8E40 /* Pods-my-protein-buddy.release.xcconfig */,
+				D0037AA65D64F65E87DAA1FA /* Pods-my-protein-buddy.debug.xcconfig */,
+				E9833FAC4494DE34F8F7A9EC /* Pods-my-protein-buddy.release.xcconfig */,
 			);
 			path = Pods;
-			sourceTree = "<group>";
-		};
-		8F109333CA1E8B5AEE615D42 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				428FEC0F9AAE093EA091F0FD /* Pods_my_protein_buddy.framework */,
-			);
-			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -223,11 +229,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 589FAE072D6E34DB007890AB /* Build configuration list for PBXNativeTarget "my-protein-buddy" */;
 			buildPhases = (
-				68E6620F53BA8C738C7A47B5 /* [CP] Check Pods Manifest.lock */,
+				51322918A4BB104A5516EB73 /* [CP] Check Pods Manifest.lock */,
 				589FADEC2D6E34DA007890AB /* Sources */,
 				589FADED2D6E34DA007890AB /* Frameworks */,
 				589FADEE2D6E34DA007890AB /* Resources */,
-				1809C80C124685489227D2D5 /* [CP] Embed Pods Frameworks */,
+				D14BB601404A04D4E3699828 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -282,6 +288,7 @@
 				582BE0FC2D949ADF0059A4D1 /* LogOutCell.xib in Resources */,
 				589FAE002D6E34DB007890AB /* Assets.xcassets in Resources */,
 				589FADFB2D6E34DA007890AB /* Main.storyboard in Resources */,
+				584D36CC2F496AE900BFF868 /* PrivacyInfo.xcprivacy in Resources */,
 				58D361752DE74B3A00FCB70E /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -289,28 +296,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		1809C80C124685489227D2D5 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-my-protein-buddy/Pods-my-protein-buddy-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			inputPaths = (
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-my-protein-buddy/Pods-my-protein-buddy-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-my-protein-buddy/Pods-my-protein-buddy-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		68E6620F53BA8C738C7A47B5 /* [CP] Check Pods Manifest.lock */ = {
+		51322918A4BB104A5516EB73 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -332,6 +318,27 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
+		D14BB601404A04D4E3699828 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-my-protein-buddy/Pods-my-protein-buddy-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-my-protein-buddy/Pods-my-protein-buddy-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-my-protein-buddy/Pods-my-protein-buddy-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -345,6 +352,7 @@
 				582934B22D8A1B9B000033C7 /* ProteinCallManager.swift in Sources */,
 				58B29EBD2D9F5CEC002F6FA0 /* PickerViewController.swift in Sources */,
 				582934B42D8A1D3B000033C7 /* TabBarController.swift in Sources */,
+				584D36CE2F4977E000BFF868 /* WelcomeViewController.swift in Sources */,
 				9F8594A52D88F40200E21AE2 /* PasswordViewController.swift in Sources */,
 				90E424722D78D0D900EF8B8C /* FoodViewController.swift in Sources */,
 				582BE0F22D9497B00059A4D1 /* ProfileViewController.swift in Sources */,
@@ -498,7 +506,7 @@
 		};
 		589FAE082D6E34DB007890AB /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 0D20D7676B73316AA4A7A4B8 /* Pods-my-protein-buddy.debug.xcconfig */;
+			baseConfigurationReference = D0037AA65D64F65E87DAA1FA /* Pods-my-protein-buddy.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColour;
@@ -528,7 +536,7 @@
 		};
 		589FAE092D6E34DB007890AB /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = A4DD646D67EAD29620EF8E40 /* Pods-my-protein-buddy.release.xcconfig */;
+			baseConfigurationReference = E9833FAC4494DE34F8F7A9EC /* Pods-my-protein-buddy.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColour;

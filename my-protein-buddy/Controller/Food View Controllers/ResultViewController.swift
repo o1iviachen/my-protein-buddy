@@ -115,6 +115,12 @@ class ResultViewController: UIViewController {
         view.addGestureRecognizer(swipeGesture)
     }
 
+    @IBAction func openFatSecret(_ sender: UIButton) {
+        if let url = URL(string: "https://www.fatsecret.com") {
+            UIApplication.shared.open(url)
+        }
+    }
+
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         /**

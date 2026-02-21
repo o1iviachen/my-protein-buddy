@@ -10,10 +10,10 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
+        <!--Welcome View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="WelcomeViewController" customModule="my_protein_buddy" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -47,6 +47,16 @@
                                     <constraint firstAttribute="width" constant="100" id="i9a-Xn-sOx"/>
                                 </constraints>
                             </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fat-attr-w01">
+                                <rect key="frame" x="133.33333333333334" y="750" width="126.33333333333334" height="26"/>
+                                <buttonConfiguration key="configuration" style="plain" title="powered by fatsecret">
+                                    <fontDescription key="titleFontDescription" type="system" pointSize="10"/>
+                                    <color key="baseForegroundColor" systemColor="secondaryLabelColor"/>
+                                </buttonConfiguration>
+                                <connections>
+                                    <action selector="openFatSecret:" destination="BYZ-38-t0r" eventType="touchUpInside" id="fat-conn-w01"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" name="AccentColour"/>
@@ -57,6 +67,8 @@
                             <constraint firstItem="OKC-iF-8iP" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="ECN-bk-ZTB"/>
                             <constraint firstItem="OKC-iF-8iP" firstAttribute="top" secondItem="nlJ-x0-unl" secondAttribute="bottom" constant="60" id="G97-M9-n7t"/>
                             <constraint firstItem="nlJ-x0-unl" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="YSS-hk-nRJ"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="fat-attr-w01" secondAttribute="bottom" constant="8" id="fat-bot-w01"/>
+                            <constraint firstItem="fat-attr-w01" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="fat-cx-w01"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="tOK-6G-iUi"/>
@@ -309,10 +321,10 @@
                                 </constraints>
                             </stackView>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cwh-LE-s8a">
-                                <rect key="frame" x="0.0" y="217" width="393" height="518"/>
+                                <rect key="frame" x="0.0" y="241" width="393" height="494"/>
                                 <subviews>
                                     <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="zbV-ay-FeN">
-                                        <rect key="frame" x="0.0" y="0.0" width="393" height="518"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="393" height="494"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     </tableView>
                                 </subviews>
@@ -324,6 +336,16 @@
                                     <constraint firstAttribute="bottom" secondItem="zbV-ay-FeN" secondAttribute="bottom" id="iMt-Rb-mqL"/>
                                 </constraints>
                             </scrollView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fat-attr-s01">
+                                <rect key="frame" x="133.33333333333334" y="211" width="126.33333333333334" height="26"/>
+                                <buttonConfiguration key="configuration" style="plain" title="powered by fatsecret">
+                                    <fontDescription key="titleFontDescription" type="system" pointSize="10"/>
+                                    <color key="baseForegroundColor" systemColor="secondaryLabelColor"/>
+                                </buttonConfiguration>
+                                <connections>
+                                    <action selector="openFatSecret:" destination="ZI1-TW-gr8" eventType="touchUpInside" id="fat-conn-s01"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="Rv5-zx-aYo"/>
                         <color key="backgroundColor" name="AccentColour"/>
@@ -332,7 +354,9 @@
                             <constraint firstItem="j4N-1R-t4J" firstAttribute="leading" secondItem="Rv5-zx-aYo" secondAttribute="leading" constant="20" id="MqJ-1S-uBc"/>
                             <constraint firstItem="cwh-LE-s8a" firstAttribute="bottom" secondItem="Rv5-zx-aYo" secondAttribute="bottom" id="bsK-FN-A9n"/>
                             <constraint firstItem="Rv5-zx-aYo" firstAttribute="trailing" secondItem="j4N-1R-t4J" secondAttribute="trailing" constant="20" id="eyu-KK-gSz"/>
-                            <constraint firstItem="cwh-LE-s8a" firstAttribute="top" secondItem="j4N-1R-t4J" secondAttribute="bottom" constant="10" id="glo-Lu-qWX"/>
+                            <constraint firstItem="fat-attr-s01" firstAttribute="centerX" secondItem="zrm-gn-bjO" secondAttribute="centerX" id="fat-cx-s01"/>
+                            <constraint firstItem="fat-attr-s01" firstAttribute="top" secondItem="j4N-1R-t4J" secondAttribute="bottom" constant="4" id="fat-top-s01"/>
+                            <constraint firstItem="cwh-LE-s8a" firstAttribute="top" secondItem="fat-attr-s01" secondAttribute="bottom" constant="4" id="glo-Lu-qWX"/>
                             <constraint firstItem="zbV-ay-FeN" firstAttribute="width" secondItem="zrm-gn-bjO" secondAttribute="width" id="k5Z-Z0-meY"/>
                             <constraint firstItem="cwh-LE-s8a" firstAttribute="leading" secondItem="Rv5-zx-aYo" secondAttribute="leading" id="q4q-m1-v5D"/>
                             <constraint firstItem="cwh-LE-s8a" firstAttribute="trailing" secondItem="Rv5-zx-aYo" secondAttribute="trailing" id="uMM-2c-SYD"/>
@@ -477,6 +501,16 @@
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="large" translatesAutoresizingMaskIntoConstraints="NO" id="rVc-loading-001">
                                 <rect key="frame" x="178" y="407.66666666666669" width="37" height="37"/>
                             </activityIndicatorView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fat-attr-r01">
+                                <rect key="frame" x="133.33333333333334" y="701" width="126.33333333333334" height="26"/>
+                                <buttonConfiguration key="configuration" style="plain" title="powered by fatsecret">
+                                    <fontDescription key="titleFontDescription" type="system" pointSize="10"/>
+                                    <color key="baseForegroundColor" systemColor="secondaryLabelColor"/>
+                                </buttonConfiguration>
+                                <connections>
+                                    <action selector="openFatSecret:" destination="qrR-6c-Uej" eventType="touchUpInside" id="fat-conn-r01"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="O92-TX-EVg"/>
                         <color key="backgroundColor" name="AccentColour"/>
@@ -490,6 +524,8 @@
                             <constraint firstItem="uVm-H4-vZG" firstAttribute="leading" secondItem="O92-TX-EVg" secondAttribute="leading" constant="40" id="WfD-m2-jmY"/>
                             <constraint firstItem="O92-TX-EVg" firstAttribute="trailing" secondItem="iqn-IA-4Xj" secondAttribute="trailing" constant="40" id="ayD-4p-U8L"/>
                             <constraint firstItem="iTB-2P-4RW" firstAttribute="leading" secondItem="O92-TX-EVg" secondAttribute="leading" constant="60" id="cFp-z5-0f7"/>
+                            <constraint firstItem="O92-TX-EVg" firstAttribute="bottom" secondItem="fat-attr-r01" secondAttribute="bottom" constant="8" id="fat-bot-r01"/>
+                            <constraint firstItem="fat-attr-r01" firstAttribute="centerX" secondItem="S1k-Wt-K0m" secondAttribute="centerX" id="fat-cx-r01"/>
                             <constraint firstItem="iqn-IA-4Xj" firstAttribute="leading" secondItem="O92-TX-EVg" secondAttribute="leading" constant="40" id="lYY-8e-cos"/>
                             <constraint firstItem="rVc-loading-001" firstAttribute="centerX" secondItem="S1k-Wt-K0m" secondAttribute="centerX" id="rVc-centerX-001"/>
                             <constraint firstItem="rVc-loading-001" firstAttribute="centerY" secondItem="S1k-Wt-K0m" secondAttribute="centerY" id="rVc-centerY-001"/>
@@ -620,6 +656,7 @@
                                 <rect key="frame" x="156.66666666666666" y="505.33333333333331" width="79.666666666666657" height="34.333333333333314"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="filled" title="sign up">
+                                    <color key="baseForegroundColor" name="AccentColour"/>
                                     <color key="baseBackgroundColor" name="TextColour"/>
                                 </buttonConfiguration>
                                 <connections>
@@ -1244,8 +1281,9 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="5cV-Le-WvS"/>
-        <segue reference="4af-VQ-aJX"/>
+        <segue reference="Mqm-F3-hHP"/>
+        <segue reference="WRm-FH-wBV"/>
+        <segue reference="snc-Vg-Qu0"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" name="TextColour"/>
     <resources>
@@ -1261,11 +1299,14 @@
         <namedColor name="TextColour">
             <color red="0.40000000000000002" green="0.20000000000000001" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
+        <systemColor name="secondaryLabelColor">
+            <color red="0.23529411764705882" green="0.23529411764705882" blue="0.2627450980392157" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
         <systemColor name="systemGrayColor">
-            <color red="0.5568627451" green="0.5568627451" blue="0.57647058819999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.55686274509803924" green="0.55686274509803924" blue="0.57647058823529407" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

@@ -1,11 +1,11 @@
-platform :ios, '13.0'
+platform :ios, '16.2'
 
 target 'my-protein-buddy' do
   use_frameworks!
 
   # Pods for my-protein-buddy
-  pod 'Firebase/Auth'
-  pod 'Firebase/Firestore'
+  pod 'Firebase/Auth', '~> 11.13.0'
+  pod 'Firebase/Firestore', '~> 11.13.0'
   pod 'GoogleSignIn'
   pod 'IQKeyboardManagerSwift'
 

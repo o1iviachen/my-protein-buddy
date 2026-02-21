@@ -68,6 +68,12 @@ class SearchViewController: UIViewController {
         // Register food cell
         resultsTableView.register(UINib(nibName: K.foodCellIdentifier, bundle: nil), forCellReuseIdentifier: K.foodCellIdentifier)
     }
+
+    @IBAction func openFatSecret(_ sender: UIButton) {
+        if let url = URL(string: "https://www.fatsecret.com") {
+            UIApplication.shared.open(url)
+        }
+    }
     
     
     @IBAction func searchPressed(_ sender: UIButton) {
