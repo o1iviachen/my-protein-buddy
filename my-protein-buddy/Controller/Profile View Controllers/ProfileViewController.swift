@@ -28,8 +28,9 @@ class ProfileViewController: UIViewController {
     @IBOutlet weak var userLabel: UILabel!
     @IBOutlet weak var proteinLabel: UILabel!
     @IBOutlet weak var loadingAnimation: UIActivityIndicatorView!
+    var loadingWorkItem: DispatchWorkItem?
 
-    
+
     override func viewDidLoad() {
         /**
          Called after the View Controller is loaded to set up the Profile View Controller's Table View with custom cells.
@@ -65,14 +66,20 @@ class ProfileViewController: UIViewController {
             userLabel.text = "current user: \(email)"
         }
 
-        // Show loading animation
-        loadingAnimation.isHidden = false
+        // Show loading animation after a short delay to avoid flashing
+        loadingAnimation.isHidden = true
+        let workItem = DispatchWorkItem { [weak self] in
+            self?.loadingAnimation.isHidden = false
+        }
+        loadingWorkItem = workItem
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3, execute: workItem)
 
         // Fetch user document
         firebaseManager.fetchUserDocument { document in
 
             // Fetch and display protein goal if it exists
             self.firebaseManager.fetchProteinGoal(document: document) { proteinGoal in
+                self.loadingWorkItem?.cancel()
                 self.loadingAnimation.isHidden = true
                 if let safeProteinGoal = proteinGoal {
                     self.proteinLabel.text = "protein goal: \(safeProteinGoal) g"
