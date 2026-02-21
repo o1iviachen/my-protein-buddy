@@ -27,8 +27,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             let window = UIWindow(windowScene: windowScene)
             self.window = window
 
+            // Match the launch screen background color to prevent a white flash
+            window.backgroundColor = UIColor(named: "AccentColour")
+
             // Instantiate Storyboard
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
+
+            window.makeKeyAndVisible()
 
             // Determine if there if a user logged in; code from https://stackoverflow.com/questions/37873608/how-do-i-detect-if-a-user-is-already-logged-in-firebase
             handle = Auth.auth().addStateDidChangeListener { auth, user in
@@ -53,8 +58,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                 }
             }
 
-
-            window.makeKeyAndVisible()
             guard let _ = (scene as? UIWindowScene) else { return }
         }
     }
