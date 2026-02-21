@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>936764257025-h7t9k7l8hbo4bphjco0ulbuo98tu21c1.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.936764257025-h7t9k7l8hbo4bphjco0ulbuo98tu21c1</string>
+	<key>API_KEY</key>
+	<string>AIzaSyA31S8K2CCsoc327RsS0eaCeWDZhS0r_pw</string>
+	<key>GCM_SENDER_ID</key>
+	<string>936764257025</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.chenolivia.my-protein-buddy</string>
+	<key>PROJECT_ID</key>
+	<string>my-protein-buddy</string>
+	<key>STORAGE_BUCKET</key>
+	<string>my-protein-buddy.firebasestorage.app</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:936764257025:ios:df6726e78c14af954a6100</string>
+</dict>
+</plist>

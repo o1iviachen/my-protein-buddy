@@ -71,8 +71,6 @@ fastlane/Preview.html
 fastlane/screenshots/**/*.png
 fastlane/test_output
 
-# Google Property List
-GoogleService-Info.plist
 
 # Keys and IDs
 Secrets.xcconfig
