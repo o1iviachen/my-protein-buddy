@@ -65,7 +65,6 @@ struct ProteinCallManager {
                 if let json = try JSONSerialization.jsonObject(with: safeData) as? [String: Any],
                    let token = json["access_token"] as? String,
                    let expiresIn = json["expires_in"] as? Int {
-                    print("[FatSecret] Token acquired, expires in \(expiresIn)s")
                     ProteinCallManager.accessToken = token
                     ProteinCallManager.tokenExpiresAt = Date().addingTimeInterval(TimeInterval(expiresIn - 60))
                     completion(token)
@@ -121,11 +120,8 @@ struct ProteinCallManager {
                     return
                 }
 
-                print("[FatSecret] Search response: \(String(data: safeData, encoding: .utf8) ?? "nil")")
-
                 do {
                     let decoded = try JSONDecoder().decode(FSSearchResponse.self, from: safeData)
-                    print("[FatSecret] Search found \(decoded.foods.food.count) foods")
                     completion(decoded.foods.food)
                 } catch {
                     print("[FatSecret] Search decode error: \(error)")
@@ -215,8 +211,6 @@ struct ProteinCallManager {
                     completion(nil)
                     return
                 }
-
-                print("[FatSecret] Barcode response: \(String(data: safeData, encoding: .utf8) ?? "nil")")
 
                 let food = self.parseFoodDetail(data: safeData)
                 completion(food)

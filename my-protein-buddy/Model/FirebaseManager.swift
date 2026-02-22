@@ -360,4 +360,32 @@ struct FirebaseManager {
 
         return nil
     }
+    
+    func saveRecentMeal(meal: String) {
+        /**
+         Save a user's mot recent meal
+         
+         - Parameters:
+            - meal (String): title of meal
+            - completion (Optional Bool): Stores the completion result
+         */
+        // Save recent meal
+        db.collection("users").document((Auth.auth().currentUser?.email)!).setData(["recentMeal": meal], merge: true)
+    }
+    
+    func fetchRecentMeal(document: DocumentSnapshot?, completion: @escaping (String?) -> Void) {
+        /**
+         Fetches the user's recent meal.
+         
+         - Parameters:
+            - document (Optional DocumentSnapshot): Stores the Firebase Firestore information at the time of the call.
+            - completion (Optional String): Stores the user's recent meal
+         */
+        
+        // Fetch recent meal, which may be nil
+        let recentMeal = document?.data()?["recentMeal"] as? String
+        
+        // Call completion handler possibly with recent meal
+        completion(recentMeal)
+    }
 }

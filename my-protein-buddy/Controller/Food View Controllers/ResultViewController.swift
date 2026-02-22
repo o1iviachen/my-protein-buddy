@@ -66,7 +66,7 @@ class ResultViewController: UIViewController {
         servingTextField.delegate = self
         
         // Initially configure UI with unmodified food
-        mealButton.setTitle(originalMeal, for: .normal)
+        
         servingTextField.text = String(selectedFood!.multiplier)
         
         // Set temporary measure (keep selected food unchanged in case user is updating)
@@ -90,6 +90,16 @@ class ResultViewController: UIViewController {
                 if let setProteinGoal = fetchedGoal {
                     self.proteinGoal = setProteinGoal
                 }
+                dispatchGroup.leave()
+            }
+
+            // Fetch recent meal
+            dispatchGroup.enter()
+            self.firebaseManager.fetchRecentMeal(document: document) { meal in
+                if let recentMeal = meal {
+                    self.originalMeal = recentMeal
+                }
+                self.mealButton.setTitle(self.originalMeal, for: .normal)
                 dispatchGroup.leave()
             }
 
@@ -261,6 +271,7 @@ class ResultViewController: UIViewController {
                                     self.navigationController?.popViewController(animated: true)
                                 }
                             }
+                            self.firebaseManager.saveRecentMeal(meal: meal) 
                         }
                     }
                 }
