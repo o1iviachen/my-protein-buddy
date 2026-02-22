@@ -9,6 +9,7 @@
 
 import UIKit
 import Firebase
+import AVFoundation
 
 class SearchViewController: UIViewController {
     /**
@@ -67,6 +68,10 @@ class SearchViewController: UIViewController {
         
         // Register food cell
         resultsTableView.register(UINib(nibName: K.foodCellIdentifier, bundle: nil), forCellReuseIdentifier: K.foodCellIdentifier)
+
+        // Add barcode scanner button to navigation bar
+        let cameraButton = UIBarButtonItem(image: UIImage(systemName: "camera"), style: .plain, target: self, action: #selector(scanBarcodeTapped))
+        navigationItem.rightBarButtonItem = cameraButton
     }
 
     @IBAction func openFatSecret(_ sender: UIButton) {
@@ -154,6 +159,43 @@ class SearchViewController: UIViewController {
     }
     
     
+    @objc func scanBarcodeTapped() {
+        /**
+         Checks camera permission and presents the barcode scanner when the camera button is tapped.
+         */
+
+        // Check camera authorisation status
+        switch AVCaptureDevice.authorizationStatus(for: .video) {
+        case .authorized:
+            presentBarcodeScanner()
+
+        case .notDetermined:
+            AVCaptureDevice.requestAccess(for: .video) { granted in
+                DispatchQueue.main.async {
+                    if granted {
+                        self.presentBarcodeScanner()
+                    }
+                }
+            }
+
+        default:
+            alertManager.showAlert(alertMessage: "camera access is required to scan barcodes. please enable it in settings.", viewController: self)
+        }
+    }
+
+
+    func presentBarcodeScanner() {
+        /**
+         Presents the barcode scanner View Controller modally.
+         */
+
+        let scannerVC = BarcodeScannerViewController()
+        scannerVC.delegate = self
+        scannerVC.modalPresentationStyle = .fullScreen
+        present(scannerVC, animated: true)
+    }
+
+
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         /**
          Prepares and passes the selected foor item data before transitioning to the Results View Controller.
@@ -303,5 +345,46 @@ extension SearchViewController: UITableViewDataSource {
         cell.proteinMassLabel.text = "\(String(format: "%.1f", cellFood.proteinPerGram * cellFood.multiplier * cellFood.selectedMeasure.measureMass)) g"
 
         return cell
+    }
+}
+
+//MARK: - BarcodeScannerDelegate
+extension SearchViewController: BarcodeScannerDelegate {
+    /**
+     An extension that handles the scanned barcode result by looking up the food item via the FatSecret API.
+     */
+
+
+    func didScanBarcode(barcode: String) {
+        /**
+         Called when the barcode scanner detects a barcode. Looks up the food using the FatSecret barcode API
+         and navigates to the Results View Controller if found.
+
+         - Parameters:
+            - barcode (String): The scanned barcode string.
+         */
+
+        // Show loading animation
+        loadingAnimation.isHidden = false
+
+        // Look up the barcode using FatSecret API
+        proteinCallManager.findFoodByBarcode(barcode: barcode) { food in
+            DispatchQueue.main.async {
+
+                // Hide loading animation
+                self.loadingAnimation.isHidden = true
+
+                // If food was found, navigate to results
+                if let safeFood = food {
+                    self.selectedFood = safeFood
+                    self.performSegue(withIdentifier: K.searchResultSegue, sender: self)
+                }
+
+                // Otherwise, inform user that no food was found for this barcode
+                else {
+                    self.alertManager.showAlert(alertMessage: "no food was found for this barcode.", viewController: self)
+                }
+            }
+        }
     }
 }

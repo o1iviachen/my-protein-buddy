@@ -46,7 +46,7 @@ struct ProteinCallManager {
         request.httpMethod = "POST"
         request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
 
-        let bodyString = "grant_type=client_credentials&client_id=\(clientID)&client_secret=\(clientSecret)&scope=basic"
+        let bodyString = "grant_type=client_credentials&client_id=\(clientID)&client_secret=\(clientSecret)&scope=basic%20barcode"
         request.httpBody = bodyString.data(using: .utf8)
 
         let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
@@ -168,6 +168,55 @@ struct ProteinCallManager {
                     completion(nil)
                     return
                 }
+
+                let food = self.parseFoodDetail(data: safeData)
+                completion(food)
+            }
+            task.resume()
+        }
+    }
+
+
+    func findFoodByBarcode(barcode: String, completion: @escaping (Food?) -> Void) {
+        /**
+         Looks up a food item by its barcode using the FatSecret API. The barcode endpoint returns the same
+         response structure as the food detail endpoint, so parseFoodDetail is reused.
+
+         - Parameters:
+            - barcode (String): A 13-digit GTIN-13 barcode string.
+            - completion (Optional Food): A closure called with the parsed Food object, or nil if not found.
+         */
+
+        fetchAccessToken { token in
+            guard let safeToken = token else {
+                completion(nil)
+                return
+            }
+
+            let urlString = "https://platform.fatsecret.com/rest/food/barcode/find-by-id/v2?barcode=\(barcode)&format=json"
+
+            guard let url = URL(string: urlString) else {
+                completion(nil)
+                return
+            }
+
+            var request = URLRequest(url: url)
+            request.httpMethod = "GET"
+            request.setValue("Bearer \(safeToken)", forHTTPHeaderField: "Authorization")
+
+            let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+                if let error = error {
+                    print("[FatSecret] Barcode error: \(error)")
+                    completion(nil)
+                    return
+                }
+                guard let safeData = data else {
+                    print("[FatSecret] Barcode: no data")
+                    completion(nil)
+                    return
+                }
+
+                print("[FatSecret] Barcode response: \(String(data: safeData, encoding: .utf8) ?? "nil")")
 
                 let food = self.parseFoodDetail(data: safeData)
                 completion(food)

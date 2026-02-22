@@ -40,6 +40,7 @@
 		9F2358AB2D942F3D001B3F1A /* CalendarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F2358AA2D942F3D001B3F1A /* CalendarViewController.swift */; };
 		9F8594A52D88F40200E21AE2 /* PasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F8594A42D88F40200E21AE2 /* PasswordViewController.swift */; };
 		9FF16E1B2DA431C70043F90D /* AlertManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FF16E1A2DA431C70043F90D /* AlertManager.swift */; };
+		F6D373D53C6945D19F75DB5B /* BarcodeScannerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 814224F726E5487081CECC92 /* BarcodeScannerViewController.swift */; };
 		E53D48A4DBC3F05CC6E8C479 /* Pods_my_protein_buddy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D5361E3F6E38FCF0BA94F0D /* Pods_my_protein_buddy.framework */; };
 /* End PBXBuildFile section */
 
@@ -75,6 +76,7 @@
 		58D3617A2DE74BFF00FCB70E /* Secrets.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Secrets.xcconfig; sourceTree = "<group>"; };
 		58FC741C2D91CF500007FC3E /* FoodCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodCell.swift; sourceTree = "<group>"; };
 		58FC741D2D91CF500007FC3E /* FoodCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FoodCell.xib; sourceTree = "<group>"; };
+		814224F726E5487081CECC92 /* BarcodeScannerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarcodeScannerViewController.swift; sourceTree = "<group>"; };
 		90E424712D78D0A400EF8B8C /* FoodViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodViewController.swift; sourceTree = "<group>"; };
 		9D5361E3F6E38FCF0BA94F0D /* Pods_my_protein_buddy.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_my_protein_buddy.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9F1A2B4B2D7B661600A432CF /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
@@ -133,6 +135,7 @@
 				58528F222D9D937700A107F0 /* SearchViewController.swift */,
 				58B29EB82D9D9BEC002F6FA0 /* ResultViewController.swift */,
 				58B29EBC2D9F5CEC002F6FA0 /* PickerViewController.swift */,
+				814224F726E5487081CECC92 /* BarcodeScannerViewController.swift */,
 			);
 			path = "Food View Controllers";
 			sourceTree = "<group>";
@@ -371,6 +374,7 @@
 				5892A8712D7B5BB400304BF0 /* Food.swift in Sources */,
 				582BE1042D94A9D30059A4D1 /* CalculatorViewController.swift in Sources */,
 				582BE0FE2D94A2B80059A4D1 /* SelectorViewController.swift in Sources */,
+				F6D373D53C6945D19F75DB5B /* BarcodeScannerViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
