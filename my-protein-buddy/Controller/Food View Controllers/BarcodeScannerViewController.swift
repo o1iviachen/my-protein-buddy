@@ -36,7 +36,6 @@ class BarcodeScannerViewController: UIViewController {
     var previewLayer: AVCaptureVideoPreviewLayer!
     var hasDetectedBarcode = false
 
-    @IBOutlet weak var closeButton: UIButton!
     @IBOutlet weak var guideView: UIView!
     @IBOutlet weak var instructionLabel: UILabel!
 
@@ -93,15 +92,10 @@ class BarcodeScannerViewController: UIViewController {
         view.layer.addSublayer(previewLayer)
 
         // Bring storyboard subviews in front of the camera preview layer
-        view.bringSubviewToFront(closeButton)
         view.bringSubviewToFront(guideView)
         view.bringSubviewToFront(instructionLabel)
 
-        // Style close button (layer properties cannot be set in storyboard)
-        closeButton.layer.cornerRadius = 20
-        closeButton.backgroundColor = UIColor.black.withAlphaComponent(0.5)
-
-        // Style guide view border (CGColor cannot be set in storyboard)
+        // Style guide view border
         guideView.layer.borderColor = UIColor.white.cgColor
         guideView.layer.borderWidth = 2
         guideView.layer.cornerRadius = 12
@@ -143,16 +137,6 @@ class BarcodeScannerViewController: UIViewController {
             captureSession.stopRunning()
         }
     }
-
-
-    @IBAction func closeTapped(_ sender: UIButton) {
-        /**
-         Dismisses the barcode scanner.
-         */
-
-        dismiss(animated: true)
-    }
-
 
     func showCameraUnavailableAlert() {
         /**

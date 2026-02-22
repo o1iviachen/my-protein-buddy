@@ -392,18 +392,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="brc-cls-btn">
-                                <rect key="frame" x="16" y="188" width="40" height="40"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="40" id="brc-cls-h01"/>
-                                    <constraint firstAttribute="width" constant="40" id="brc-cls-w01"/>
-                                </constraints>
-                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <state key="normal" image="xmark" catalog="system"/>
-                                <connections>
-                                    <action selector="closeTapped:" destination="brc-scn-vc1" eventType="touchUpInside" id="brc-cls-act"/>
-                                </connections>
-                            </button>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="brc-gd-vw1">
                                 <rect key="frame" x="56.666666666666657" y="356" width="280" height="140"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -422,8 +410,6 @@
                         <viewLayoutGuide key="safeArea" id="brc-sa-vw1"/>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="brc-cls-btn" firstAttribute="leading" secondItem="brc-scn-vw1" secondAttribute="leading" constant="16" id="brc-cls-led"/>
-                            <constraint firstItem="brc-cls-btn" firstAttribute="top" secondItem="brc-sa-vw1" secondAttribute="top" constant="16" id="brc-cls-top"/>
                             <constraint firstItem="brc-gd-vw1" firstAttribute="centerX" secondItem="brc-scn-vw1" secondAttribute="centerX" id="brc-gd-cx"/>
                             <constraint firstItem="brc-gd-vw1" firstAttribute="centerY" secondItem="brc-scn-vw1" secondAttribute="centerY" id="brc-gd-cy"/>
                             <constraint firstItem="brc-ins-lbl" firstAttribute="centerX" secondItem="brc-scn-vw1" secondAttribute="centerX" id="brc-ins-cx"/>
@@ -431,7 +417,6 @@
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="closeButton" destination="brc-cls-btn" id="brc-out-cls"/>
                         <outlet property="guideView" destination="brc-gd-vw1" id="brc-out-gd"/>
                         <outlet property="instructionLabel" destination="brc-ins-lbl" id="brc-out-ins"/>
                     </connections>
@@ -1357,7 +1342,6 @@
         <image name="fork.knife" catalog="system" width="94" height="128"/>
         <image name="magnifyingglass" catalog="system" width="128" height="117"/>
         <image name="person.fill" catalog="system" width="128" height="120"/>
-        <image name="xmark" catalog="system" width="128" height="113"/>
         <namedColor name="AccentColour">
             <color red="1" green="0.94117647058823528" blue="0.85882352941176465" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
