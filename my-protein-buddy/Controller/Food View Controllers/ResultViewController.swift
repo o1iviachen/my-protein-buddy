@@ -222,7 +222,6 @@ class ResultViewController: UIViewController {
             // If previous view controller is a FoodViewController, the user was updating their food; code from https://stackoverflow.com/questions/16608536/how-to-get-the-previous-viewcontroller-that-pushed-my-current-view
             if let navController = self.navigationController, navController.viewControllers.count >= 2 || exists {
                 let viewController = navController.viewControllers[navController.viewControllers.count - 2]
-                print(viewController)
                 if viewController is FoodViewController || viewController is UIHostingController<AnyView>{
 
                     // Therefore, remove the original selected food

@@ -199,6 +199,8 @@ extension ProfileViewController: UITableViewDelegate {
         if indexPath == [2,0] {
             let alert = UIAlertController(title: "are you sure?", message: "do you want to log out?", preferredStyle: .alert)
             
+            alert.view.tintColor = UIColor(red: 102/255, green: 51/255, blue: 0/255, alpha: 1)
+
             let cancelAction = UIAlertAction(title: "cancel", style: .default)
             
             // Add a log out UIAlertAction with a handler to perform the segue
@@ -232,7 +234,7 @@ extension ProfileViewController: UITableViewDelegate {
         } else if indexPath == [0, 0] {
             performSegue(withIdentifier: K.profileCalculatorSegue, sender: self)
         } else if indexPath == [1, 0] {
-            if let url = URL(string: "mailto:ohchen@upei.ca?subject=MyProteinBuddy%20Inquiry") {
+            if let url = URL(string: "mailto:olivi4chen@gmail.com?subject=MyProteinBuddy%20Inquiry") {
                 UIApplication.shared.open(url) { success in
                     if !success {
                         self.alertManager.showAlert(alertMessage: "unable to open mail app.", viewController: self)

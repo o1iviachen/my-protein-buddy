@@ -51,12 +51,10 @@ struct ProteinCallManager {
 
         let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
             if let error = error {
-                print("[FatSecret] Token error: \(error)")
                 completion(nil)
                 return
             }
             guard let safeData = data else {
-                print("[FatSecret] Token: no data")
                 completion(nil)
                 return
             }
@@ -69,11 +67,9 @@ struct ProteinCallManager {
                     ProteinCallManager.tokenExpiresAt = Date().addingTimeInterval(TimeInterval(expiresIn - 60))
                     completion(token)
                 } else {
-                    print("[FatSecret] Token response unexpected: \(String(data: safeData, encoding: .utf8) ?? "nil")")
                     completion(nil)
                 }
             } catch {
-                print("[FatSecret] Token parse error: \(error)")
                 completion(nil)
             }
         }
@@ -110,12 +106,10 @@ struct ProteinCallManager {
 
             let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
                 if let error = error {
-                    print("[FatSecret] Search error: \(error)")
                     completion([])
                     return
                 }
                 guard let safeData = data else {
-                    print("[FatSecret] Search: no data")
                     completion([])
                     return
                 }
@@ -124,7 +118,6 @@ struct ProteinCallManager {
                     let decoded = try JSONDecoder().decode(FSSearchResponse.self, from: safeData)
                     completion(decoded.foods.food)
                 } catch {
-                    print("[FatSecret] Search decode error: \(error)")
                     completion([])
                 }
             }
@@ -202,12 +195,10 @@ struct ProteinCallManager {
 
             let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
                 if let error = error {
-                    print("[FatSecret] Barcode error: \(error)")
                     completion(nil)
                     return
                 }
                 guard let safeData = data else {
-                    print("[FatSecret] Barcode: no data")
                     completion(nil)
                     return
                 }
