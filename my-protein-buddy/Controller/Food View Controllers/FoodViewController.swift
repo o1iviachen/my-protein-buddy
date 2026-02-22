@@ -110,16 +110,14 @@ class FoodViewController: UIViewController {
             // Update UI only after all fetches complete
             dispatchGroup.notify(queue: .main) {
                 self.tableView.reloadData()
+                self.tableView.layoutIfNeeded()
                 self.updateProgressUI()
                 self.loadingAnimation.isHidden = true
-            }
-        }
-        
-        // Change the table view height depending on the number of foods
-        DispatchQueue.main.async {
-            if CGFloat(62*self.tableData.joined().count + 40) > self.tableView.bounds.size.height {
-                self.tableViewHeightConstraint.constant = CGFloat(62*self.tableData.joined().count + 40)
-                self.tableView.reloadData()
+
+                // Change the table view height to match its content
+                let scrollViewHeight = self.tableView.superview?.bounds.height ?? 0
+                let contentHeight = self.tableView.contentSize.height
+                self.tableViewHeightConstraint.constant = max(0, contentHeight - scrollViewHeight)
             }
         }
     }
