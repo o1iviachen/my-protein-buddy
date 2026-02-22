@@ -68,10 +68,6 @@ class SearchViewController: UIViewController {
         
         // Register food cell
         resultsTableView.register(UINib(nibName: K.foodCellIdentifier, bundle: nil), forCellReuseIdentifier: K.foodCellIdentifier)
-
-        // Add barcode scanner button to navigation bar
-        let cameraButton = UIBarButtonItem(image: UIImage(systemName: "camera"), style: .plain, target: self, action: #selector(scanBarcodeTapped))
-        navigationItem.rightBarButtonItem = cameraButton
     }
 
     @IBAction func openFatSecret(_ sender: UIButton) {
@@ -159,7 +155,7 @@ class SearchViewController: UIViewController {
     }
     
     
-    @objc func scanBarcodeTapped() {
+    @IBAction func scanBarcodeTapped(_ sender: UIBarButtonItem) {
         /**
          Checks camera permission and presents the barcode scanner when the camera button is tapped.
          */
@@ -167,32 +163,21 @@ class SearchViewController: UIViewController {
         // Check camera authorisation status
         switch AVCaptureDevice.authorizationStatus(for: .video) {
         case .authorized:
-            presentBarcodeScanner()
+            performSegue(withIdentifier: K.searchBarcodeSegue, sender: self)
+
 
         case .notDetermined:
             AVCaptureDevice.requestAccess(for: .video) { granted in
                 DispatchQueue.main.async {
                     if granted {
-                        self.presentBarcodeScanner()
+                        self.performSegue(withIdentifier: K.searchBarcodeSegue, sender: self)
                     }
                 }
             }
 
         default:
-            alertManager.showAlert(alertMessage: "camera access is required to scan barcodes. please enable it in settings.", viewController: self)
+            alertManager.showAlert(alertMessage: "camera access is required to scan barcodes. please enable it in settings", viewController: self)
         }
-    }
-
-
-    func presentBarcodeScanner() {
-        /**
-         Presents the barcode scanner View Controller modally.
-         */
-
-        let scannerVC = BarcodeScannerViewController()
-        scannerVC.delegate = self
-        scannerVC.modalPresentationStyle = .fullScreen
-        present(scannerVC, animated: true)
     }
 
 
@@ -209,6 +194,12 @@ class SearchViewController: UIViewController {
         if segue.identifier == K.searchResultSegue {
             let destinationVC = segue.destination as! ResultViewController
             destinationVC.selectedFood = selectedFood
+        }
+
+        // If segue being prepared goes to barcode scanner, set self as delegate
+        if segue.identifier == K.searchBarcodeSegue {
+            let destinationVC = segue.destination as! BarcodeScannerViewController
+            destinationVC.delegate = self
         }
     }
 }

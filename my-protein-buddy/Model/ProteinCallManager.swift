@@ -194,7 +194,7 @@ struct ProteinCallManager {
             request.setValue("Bearer \(safeToken)", forHTTPHeaderField: "Authorization")
 
             let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
-                if let error = error {
+                if error != nil {
                     completion(nil)
                     return
                 }

@@ -35,6 +35,7 @@ struct K {
     static let profileAboutSegue = "profileToAbout"
     static let logInPasswordSegue = "logInToPassword"
     static let searchResultSegue = "searchToResult"
+    static let searchBarcodeSegue = "searchToBarcode"
     static let resultPickerSegue = "resultToPicker"
     static let calendarFoodSegue = "calendarToFood"
     static let foodResultSegue = "foodToResult"

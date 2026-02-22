@@ -36,6 +36,10 @@ class BarcodeScannerViewController: UIViewController {
     var previewLayer: AVCaptureVideoPreviewLayer!
     var hasDetectedBarcode = false
 
+    @IBOutlet weak var closeButton: UIButton!
+    @IBOutlet weak var guideView: UIView!
+    @IBOutlet weak var instructionLabel: UILabel!
+
 
     override func viewDidLoad() {
         /**
@@ -43,8 +47,6 @@ class BarcodeScannerViewController: UIViewController {
          */
 
         super.viewDidLoad()
-
-        view.backgroundColor = .black
 
         // Initialise capture session
         captureSession = AVCaptureSession()
@@ -90,11 +92,19 @@ class BarcodeScannerViewController: UIViewController {
         previewLayer.videoGravity = .resizeAspectFill
         view.layer.addSublayer(previewLayer)
 
-        // Add close button
-        setupCloseButton()
+        // Bring storyboard subviews in front of the camera preview layer
+        view.bringSubviewToFront(closeButton)
+        view.bringSubviewToFront(guideView)
+        view.bringSubviewToFront(instructionLabel)
 
-        // Add scan guide overlay
-        setupScanGuide()
+        // Style close button (layer properties cannot be set in storyboard)
+        closeButton.layer.cornerRadius = 20
+        closeButton.backgroundColor = UIColor.black.withAlphaComponent(0.5)
+
+        // Style guide view border (CGColor cannot be set in storyboard)
+        guideView.layer.borderColor = UIColor.white.cgColor
+        guideView.layer.borderWidth = 2
+        guideView.layer.cornerRadius = 12
 
         // Start capture session on background thread
         DispatchQueue.global(qos: .userInitiated).async {
@@ -135,63 +145,7 @@ class BarcodeScannerViewController: UIViewController {
     }
 
 
-    func setupCloseButton() {
-        /**
-         Creates and positions a close button in the top-left corner to dismiss the scanner.
-         */
-
-        let closeButton = UIButton(type: .system)
-        closeButton.setImage(UIImage(systemName: "xmark"), for: .normal)
-        closeButton.tintColor = .white
-        closeButton.backgroundColor = UIColor.black.withAlphaComponent(0.5)
-        closeButton.layer.cornerRadius = 20
-        closeButton.translatesAutoresizingMaskIntoConstraints = false
-        closeButton.addTarget(self, action: #selector(closeTapped), for: .touchUpInside)
-        view.addSubview(closeButton)
-
-        NSLayoutConstraint.activate([
-            closeButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 16),
-            closeButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-            closeButton.widthAnchor.constraint(equalToConstant: 40),
-            closeButton.heightAnchor.constraint(equalToConstant: 40)
-        ])
-    }
-
-
-    func setupScanGuide() {
-        /**
-         Creates a rectangular guide overlay in the center of the screen to help the user aim the barcode.
-         */
-
-        let guideWidth: CGFloat = 280
-        let guideHeight: CGFloat = 140
-        let guideX = (view.bounds.width - guideWidth) / 2
-        let guideY = (view.bounds.height - guideHeight) / 2
-
-        let guideView = UIView(frame: CGRect(x: guideX, y: guideY, width: guideWidth, height: guideHeight))
-        guideView.layer.borderColor = UIColor.white.cgColor
-        guideView.layer.borderWidth = 2
-        guideView.layer.cornerRadius = 12
-        guideView.backgroundColor = .clear
-        view.addSubview(guideView)
-
-        // Add instruction label below the guide
-        let instructionLabel = UILabel()
-        instructionLabel.text = "align barcode within frame"
-        instructionLabel.textColor = .white
-        instructionLabel.font = UIFont.systemFont(ofSize: 14)
-        instructionLabel.textAlignment = .center
-        instructionLabel.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(instructionLabel)
-
-        NSLayoutConstraint.activate([
-            instructionLabel.topAnchor.constraint(equalTo: guideView.bottomAnchor, constant: 16),
-            instructionLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor)
-        ])
-    }
-
-
-    @objc func closeTapped() {
+    @IBAction func closeTapped(_ sender: UIButton) {
         /**
          Dismisses the barcode scanner.
          */
