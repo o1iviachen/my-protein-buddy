@@ -355,25 +355,23 @@ extension SearchViewController: BarcodeScannerDelegate {
             - barcode (String): The scanned barcode string.
          */
 
-        // Show loading animation
-        loadingAnimation.isHidden = false
-
         // Look up the barcode using FatSecret API
         proteinCallManager.findFoodByBarcode(barcode: barcode) { food in
             DispatchQueue.main.async {
 
-                // Hide loading animation
-                self.loadingAnimation.isHidden = true
-
-                // If food was found, navigate to results
+                // If food was found, dismiss scanner and navigate to results
                 if let safeFood = food {
-                    self.selectedFood = safeFood
-                    self.performSegue(withIdentifier: K.searchResultSegue, sender: self)
+                    self.dismiss(animated: true) {
+                        self.selectedFood = safeFood
+                        self.performSegue(withIdentifier: K.searchResultSegue, sender: self)
+                    }
                 }
 
-                // Otherwise, inform user that no food was found for this barcode
-                else {
-                    self.alertManager.showAlert(alertMessage: "no food was found for this barcode.", viewController: self)
+                // Otherwise, show alert on the scanner and resume scanning when dismissed
+                else if let scanner = self.presentedViewController as? BarcodeScannerViewController {
+                    self.alertManager.showAlert(alertMessage: "no food was found for this barcode.", viewController: scanner) {
+                        scanner.resumeScanning()
+                    }
                 }
             }
         }

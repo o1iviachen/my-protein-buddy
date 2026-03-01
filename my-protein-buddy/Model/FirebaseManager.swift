@@ -166,22 +166,24 @@ struct FirebaseManager {
             let dateManager = DateManager()
             
             // Sort the foods from latest to earliest using bubble sort
-            for i in 0..<recentData.count - 1 {
-                var swapped = false
-                
-                // Check each consumption time against next consumption time
-                for j in 0..<recentData.count-i-1 {
-                    
-                    // If the current consumption time is earlier than the next consumption time, swap the two elements
-                    if dateManager.formatString(dateString: recentData[j].consumptionTime!, stringFormat: "yy_MM_dd HH:mm:ss") < dateManager.formatString(dateString: recentData[j+1].consumptionTime!, stringFormat: "yy_MM_dd HH:mm:ss") {
-                        swapped = true
-                        recentData.swapAt(j, j+1)
+            if recentData.count > 1 {
+                for i in 0..<recentData.count - 1 {
+                    var swapped = false
+
+                    // Check each consumption time against next consumption time
+                    for j in 0..<recentData.count-i-1 {
+
+                        // If the current consumption time is earlier than the next consumption time, swap the two elements
+                        if dateManager.formatString(dateString: recentData[j].consumptionTime!, stringFormat: "yy_MM_dd HH:mm:ss") < dateManager.formatString(dateString: recentData[j+1].consumptionTime!, stringFormat: "yy_MM_dd HH:mm:ss") {
+                            swapped = true
+                            recentData.swapAt(j, j+1)
+                        }
                     }
-                }
-                
-                // If nothing swaps after an iteration, the foods are already sorted
-                if !swapped {
-                    completion(recentData)
+
+                    // If nothing swaps after an iteration, the foods are already sorted
+                    if !swapped {
+                        break
+                    }
                 }
             }
         }

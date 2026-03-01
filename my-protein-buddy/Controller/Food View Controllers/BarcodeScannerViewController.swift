@@ -185,8 +185,19 @@ extension BarcodeScannerViewController: AVCaptureMetadataOutputObjectsDelegate {
         // Stop capture session
         captureSession.stopRunning()
 
-        // Pass barcode to delegate and dismiss
+        // Pass barcode to delegate
         delegate?.didScanBarcode(barcode: barcodeValue)
-        dismiss(animated: true)
+    }
+
+
+    func resumeScanning() {
+        /**
+         Resets the detection flag and restarts the capture session so the user can scan another barcode.
+         */
+
+        hasDetectedBarcode = false
+        DispatchQueue.global(qos: .userInitiated).async {
+            self.captureSession.startRunning()
+        }
     }
 }
