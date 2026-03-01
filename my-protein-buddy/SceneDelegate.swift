@@ -30,6 +30,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             // Match the launch screen background color to prevent a white flash
             window.backgroundColor = UIColor(named: "AccentColour")
 
+            // Set global tint to dark brown so iPad tab bar uses the correct selected color
+            window.tintColor = UIColor(red: 102/255, green: 51/255, blue: 0/255, alpha: 1)
+
             // Instantiate Storyboard
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
 

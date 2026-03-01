@@ -55,6 +55,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         tabBarAppearance.backgroundColor = lightBrown
         tabBarAppearance.shadowColor = .clear
         tabBarAppearance.stackedLayoutAppearance.normal.iconColor = mediumBrown
+        tabBarAppearance.inlineLayoutAppearance.normal.iconColor = mediumBrown
         
         // Change navigation bar appearance to conforming UINavigationBarAppearance object
         UINavigationBar.appearance().standardAppearance = navBarAppearance
