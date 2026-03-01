@@ -32,7 +32,7 @@ class SignUpViewController: UIViewController {
     @IBAction func togglePasswordVisibility(_ sender: UIButton) {
         passwordTextField.isSecureTextEntry.toggle()
         let imageName = passwordTextField.isSecureTextEntry ? "eye.slash" : "eye"
-        sender.setImage(UIImage(systemName: imageName), for: .normal)
+        sender.configuration?.image = UIImage(systemName: imageName)
     }
 
 

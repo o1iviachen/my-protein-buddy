@@ -62,7 +62,7 @@ struct CalendarScene: View {
             // Custom functionality that allows and records the user's date selection
             VStack {
                 CalendarView(canSelect: true, selectedDate: $selectedDate)
-                    .scaledToFit()
+                    .frame(maxWidth: .infinity)
                     .onChange(of: selectedDate) { newDate in
                         if newDate != nil {
                             navigate = true
@@ -143,6 +143,14 @@ struct CalendarView: UIViewRepresentable {
     }
   
     
+    func sizeThatFits(_ proposal: ProposedViewSize, uiView: UICalendarView, context: Context) -> CGSize? {
+        if let width = proposal.width {
+            return CGSize(width: width, height: uiView.intrinsicContentSize.height)
+        }
+        return nil
+    }
+
+
     func updateUIView(_ uiView: UICalendarView, context: Context) {
         /**
          Updates the Storyboard Calendar View when the SwiftUI state changes.
