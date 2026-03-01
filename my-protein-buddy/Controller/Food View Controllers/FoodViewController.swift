@@ -143,6 +143,10 @@ class FoodViewController: UIViewController {
     }
     
     
+    @objc func dismissSelf() {
+        dismiss(animated: true)
+    }
+
     func updateProgressUI() {
         /**
          Updates the progress label and progress bar based on the user's protein intake and tells the user to set their protein goal if not already done.
@@ -355,8 +359,16 @@ struct FoodView: UIViewControllerRepresentable {
             let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "yy_MM_dd"
             foodVC.dateString = dateFormatter.string(from: date)
+
+            // Add a back button to dismiss
+            foodVC.navigationItem.leftBarButtonItem = UIBarButtonItem(
+                image: UIImage(systemName: "chevron.left"),
+                style: .plain,
+                target: foodVC,
+                action: #selector(FoodViewController.dismissSelf)
+            )
         }
-        
+
         return navController
     }
 }

@@ -50,7 +50,7 @@ struct ProteinCallManager {
         request.httpBody = bodyString.data(using: .utf8)
 
         let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
-            if let error = error {
+            if error != nil {
                 completion(nil)
                 return
             }

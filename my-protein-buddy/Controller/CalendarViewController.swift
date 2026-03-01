@@ -39,6 +39,7 @@ class CalendarViewController: UIViewController {
 
         // Adds the Calendar View as a child view controller to link it to the StoryBoard
         let hostingController = UIHostingController(rootView: calendarScene)
+        hostingController.view.backgroundColor = UIColor(named: "AccentColour")
         addChild(hostingController)
         hostingController.view.frame = view.bounds
         hostingController.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
@@ -57,28 +58,31 @@ struct CalendarScene: View {
     @State private var navigate = false
 
     var body: some View {
-        // Allows the CalendarUI to be navigated
-        NavigationStack {
-            // Custom functionality that allows and records the user's date selection
-            VStack {
-                CalendarView(canSelect: true, selectedDate: $selectedDate)
-                    .frame(maxWidth: .infinity)
-                    .onChange(of: selectedDate) { newDate in
-                        if newDate != nil {
-                            navigate = true
-                        }
+        // Custom functionality that allows and records the user's date selection
+        VStack {
+            CalendarView(canSelect: true, selectedDate: $selectedDate)
+                .scaledToFit()
+                .onChange(of: selectedDate) { newDate in
+                    if newDate != nil {
+                        navigate = true
                     }
-                Spacer()
-                Spacer()
-            }
-            // Triggers the FoodView for the user's selected date to be displayed
-            .navigationDestination(isPresented: $navigate) {
-                if let date = selectedDate {
-                    FoodView(date: date)
                 }
+            Spacer()
+            Spacer()
+        }
+        .padding(.horizontal)
+        .background(Color(red: 255/255, green: 240/255, blue: 219/255))
+        // Triggers the FoodView for the user's selected date to be displayed
+        .fullScreenCover(isPresented: $navigate) {
+            if let date = selectedDate {
+                FoodView(date: date)
+                    .ignoresSafeArea()
             }
-            .padding(.horizontal)
-            .background(Color(red: 255/255, green: 240/255, blue: 219/255))
+        }
+        .onChange(of: navigate) { isNavigating in
+            if !isNavigating {
+                selectedDate = nil
+            }
         }
     }
 }
@@ -143,13 +147,6 @@ struct CalendarView: UIViewRepresentable {
     }
   
     
-    func sizeThatFits(_ proposal: ProposedViewSize, uiView: UICalendarView, context: Context) -> CGSize? {
-        if let width = proposal.width {
-            return CGSize(width: width, height: uiView.intrinsicContentSize.height)
-        }
-        return nil
-    }
-
 
     func updateUIView(_ uiView: UICalendarView, context: Context) {
         /**
@@ -163,7 +160,13 @@ struct CalendarView: UIViewRepresentable {
         let calendar = Calendar(identifier: calendarIdentifier)
         uiView.calendar = calendar
         context.coordinator.calendarIdentifier = calendarIdentifier
-    
+
+        // Clear the calendar's visual selection when selectedDate is reset to nil
+        if canSelect, selectedDate == nil,
+           let selection = uiView.selectionBehavior as? UICalendarSelectionSingleDate {
+            selection.setSelected(nil, animated: false)
+        }
+
         // If selection is disabled, highlight the previously selected date
         if !canSelect, let selectedDate {
             var components = Set<DateComponents>()

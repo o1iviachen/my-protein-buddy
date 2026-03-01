@@ -425,7 +425,7 @@
                         <outlet property="resultsTableView" destination="zbV-ay-FeN" id="Klb-XW-ve8"/>
                         <outlet property="searchTextField" destination="WQs-hi-o85" id="CSD-Mr-h2e"/>
                         <segue destination="qrR-6c-Uej" kind="show" identifier="searchToResult" id="snc-Vg-Qu0"/>
-                        <segue destination="brc-scn-vc1" kind="push" identifier="searchToBarcode" id="brc-seg-001"/>
+                        <segue destination="brc-scn-vc1" kind="show" identifier="searchToBarcode" id="brc-seg-001"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="b8Q-mJ-qyP" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
