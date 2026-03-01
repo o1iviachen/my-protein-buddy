@@ -28,8 +28,15 @@ class LogInViewController: UIViewController {
     
     @IBOutlet weak var emailTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
-    
-    
+
+
+    @IBAction func togglePasswordVisibility(_ sender: UIButton) {
+        passwordTextField.isSecureTextEntry.toggle()
+        let imageName = passwordTextField.isSecureTextEntry ? "eye.slash" : "eye"
+        sender.setImage(UIImage(systemName: imageName), for: .normal)
+    }
+
+
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         /**
          Passes the user's email address before the user navigates to the password screen.

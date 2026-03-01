@@ -27,8 +27,15 @@ class SignUpViewController: UIViewController {
     
     @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var emailTextField: UITextField!
-    
-    
+
+
+    @IBAction func togglePasswordVisibility(_ sender: UIButton) {
+        passwordTextField.isSecureTextEntry.toggle()
+        let imageName = passwordTextField.isSecureTextEntry ? "eye.slash" : "eye"
+        sender.setImage(UIImage(systemName: imageName), for: .normal)
+    }
+
+
     @IBAction func signUpPressed(_ sender: UIButton) {
         /**
          Attempts to create a new user with the entered email and password, and navigates the user to the appropriate View Controller.

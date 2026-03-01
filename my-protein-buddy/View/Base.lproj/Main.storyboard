@@ -123,15 +123,40 @@
                                         <color key="textColor" name="TextColour"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Vzq-8w-KxL">
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LpW-vT-login">
                                         <rect key="frame" x="0.0" y="25.333333333333314" width="238" height="34"/>
+                                        <subviews>
+                                            <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Vzq-8w-KxL">
+                                                <rect key="frame" x="0.0" y="0.0" width="238" height="34"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <textInputTraits key="textInputTraits" spellCheckingType="no" secureTextEntry="YES"/>
+                                            </textField>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eyB-tn-log1">
+                                                <rect key="frame" x="204" y="2" width="30" height="30"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="30" id="eyW-lg-w01"/>
+                                                    <constraint firstAttribute="height" constant="30" id="eyH-lg-h01"/>
+                                                </constraints>
+                                                <color key="tintColor" systemColor="systemGrayColor"/>
+                                                <state key="normal">
+                                                    <imageReference key="image" name="eye.slash" catalog="system"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="togglePasswordVisibility:" destination="CWC-4b-Nch" eventType="touchUpInside" id="eyA-lg-a01"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="34" id="bfP-NU-eSj"/>
                                             <constraint firstAttribute="width" constant="238" id="bmo-7L-l52"/>
+                                            <constraint firstItem="Vzq-8w-KxL" firstAttribute="leading" secondItem="LpW-vT-login" secondAttribute="leading" id="eyC-lg-l01"/>
+                                            <constraint firstAttribute="trailing" secondItem="Vzq-8w-KxL" secondAttribute="trailing" id="eyC-lg-t01"/>
+                                            <constraint firstItem="Vzq-8w-KxL" firstAttribute="top" secondItem="LpW-vT-login" secondAttribute="top" id="eyC-lg-tp1"/>
+                                            <constraint firstAttribute="bottom" secondItem="Vzq-8w-KxL" secondAttribute="bottom" id="eyC-lg-bt1"/>
+                                            <constraint firstAttribute="trailing" secondItem="eyB-tn-log1" secondAttribute="trailing" constant="4" id="eyC-lg-tr2"/>
+                                            <constraint firstItem="eyB-tn-log1" firstAttribute="centerY" secondItem="LpW-vT-login" secondAttribute="centerY" id="eyC-lg-cy1"/>
                                         </constraints>
-                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <textInputTraits key="textInputTraits" spellCheckingType="no" secureTextEntry="YES"/>
-                                    </textField>
+                                    </view>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ubx-Eg-SSw">
                                         <rect key="frame" x="0.0" y="69.333333333333314" width="238" height="25.666666666666671"/>
                                         <state key="normal" title="Button"/>
@@ -680,15 +705,40 @@
                                         <color key="textColor" name="TextColour"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="qfa-7g-wbe">
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LpW-vT-signup">
                                         <rect key="frame" x="0.0" y="25.333333333333314" width="238" height="34"/>
+                                        <subviews>
+                                            <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="qfa-7g-wbe">
+                                                <rect key="frame" x="0.0" y="0.0" width="238" height="34"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <textInputTraits key="textInputTraits" spellCheckingType="no" secureTextEntry="YES"/>
+                                            </textField>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eyB-tn-sgn1">
+                                                <rect key="frame" x="204" y="2" width="30" height="30"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="30" id="eyW-sg-w01"/>
+                                                    <constraint firstAttribute="height" constant="30" id="eyH-sg-h01"/>
+                                                </constraints>
+                                                <color key="tintColor" systemColor="systemGrayColor"/>
+                                                <state key="normal">
+                                                    <imageReference key="image" name="eye.slash" catalog="system"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="togglePasswordVisibility:" destination="1CK-Va-YbC" eventType="touchUpInside" id="eyA-sg-a01"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="34" id="KGI-Pu-nDP"/>
                                             <constraint firstAttribute="width" constant="238" id="kcp-6L-s0t"/>
+                                            <constraint firstItem="qfa-7g-wbe" firstAttribute="leading" secondItem="LpW-vT-signup" secondAttribute="leading" id="eyC-sg-l01"/>
+                                            <constraint firstAttribute="trailing" secondItem="qfa-7g-wbe" secondAttribute="trailing" id="eyC-sg-t01"/>
+                                            <constraint firstItem="qfa-7g-wbe" firstAttribute="top" secondItem="LpW-vT-signup" secondAttribute="top" id="eyC-sg-tp1"/>
+                                            <constraint firstAttribute="bottom" secondItem="qfa-7g-wbe" secondAttribute="bottom" id="eyC-sg-bt1"/>
+                                            <constraint firstAttribute="trailing" secondItem="eyB-tn-sgn1" secondAttribute="trailing" constant="4" id="eyC-sg-tr2"/>
+                                            <constraint firstItem="eyB-tn-sgn1" firstAttribute="centerY" secondItem="LpW-vT-signup" secondAttribute="centerY" id="eyC-sg-cy1"/>
                                         </constraints>
-                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <textInputTraits key="textInputTraits" spellCheckingType="no" secureTextEntry="YES"/>
-                                    </textField>
+                                    </view>
                                 </subviews>
                             </stackView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9TL-Dr-2wn" customClass="GIDSignInButton">
