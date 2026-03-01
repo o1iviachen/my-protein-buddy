@@ -414,6 +414,7 @@
                     <toolbarItems/>
                     <navigationItem key="navigationItem" id="srch-nav-itm">
                         <barButtonItem key="rightBarButtonItem" systemItem="camera" id="cam-btn-itm">
+                            <color key="tintColor" name="TextColour"/>
                             <connections>
                                 <action selector="scanBarcodeTapped:" destination="ZI1-TW-gr8" id="cam-act-001"/>
                             </connections>
@@ -840,6 +841,7 @@
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="o5H-Xh-Me2">
                         <rect key="frame" x="0.0" y="118" width="393" height="54"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <color key="tintColor" name="TextColour"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
@@ -1127,6 +1129,7 @@
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="ajt-4U-X87">
                         <rect key="frame" x="0.0" y="118" width="393" height="54"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <color key="tintColor" name="TextColour"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
@@ -1148,6 +1151,7 @@
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="zD3-fI-vqW">
                         <rect key="frame" x="0.0" y="118" width="393" height="54"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <color key="tintColor" name="TextColour"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>

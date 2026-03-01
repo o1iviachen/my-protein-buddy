@@ -43,6 +43,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         navBarAppearance.titleTextAttributes = [.foregroundColor: UIColor.white]
         navBarAppearance.shadowColor = .clear
 
+        // Set back button and button item appearance to dark brown
+        let buttonAppearance = UIBarButtonItemAppearance()
+        buttonAppearance.normal.titleTextAttributes = [.foregroundColor: darkBrown]
+        navBarAppearance.buttonAppearance = buttonAppearance
+        navBarAppearance.backButtonAppearance = buttonAppearance
+
         // Create UITabBarAppearance object conforming to UI
         let tabBarAppearance = UITabBarAppearance()
         tabBarAppearance.configureWithOpaqueBackground()

@@ -62,6 +62,7 @@ struct CalendarScene: View {
         VStack {
             CalendarView(canSelect: true, selectedDate: $selectedDate)
                 .scaledToFit()
+                .frame(maxWidth: UIDevice.current.userInterfaceIdiom == .pad ? 500 : .infinity)
                 .onChange(of: selectedDate) { newDate in
                     if newDate != nil {
                         navigate = true
@@ -135,12 +136,12 @@ struct CalendarView: UIViewRepresentable {
         let view = UICalendarView()
         // Set the calendar system
         view.calendar = Calendar(identifier: calendarIdentifier)
-    
+
         // Enable selection behavior if canSelect is true
         if canSelect {
             view.selectionBehavior = UICalendarSelectionSingleDate(delegate: context.coordinator)
         }
-    
+
         // Assign the coordinator as the delegate
         view.delegate = context.coordinator
         return view
