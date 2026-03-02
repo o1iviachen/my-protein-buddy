@@ -135,10 +135,17 @@ class FoodViewController: UIViewController {
         // If the segue to be performed goes to the result view controller (the food is being edited)
         if segue.identifier == K.foodResultSegue {
             let destinationVC = segue.destination as! ResultViewController
-            
+
             // Prepare the result view controller's attributes
             destinationVC.selectedFood = selectedFood!
             destinationVC.originalMeal = selectedMeal!
+            destinationVC.dateString = dateString
+        }
+
+        // If the segue to be performed goes to the search view controller, pass the date
+        if segue.identifier == K.foodSearchSegue {
+            let destinationVC = segue.destination as! SearchViewController
+            destinationVC.dateString = dateString
         }
     }
     

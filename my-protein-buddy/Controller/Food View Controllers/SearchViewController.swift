@@ -26,6 +26,7 @@ class SearchViewController: UIViewController {
     let alertManager = AlertManager()
     var searchList: [Food] = []
     var selectedFood: Food? = nil
+    var dateString: String? = nil
     var tapGesture: UITapGestureRecognizer?
     var swipeGesture: UISwipeGestureRecognizer?
     
@@ -190,10 +191,11 @@ class SearchViewController: UIViewController {
             - sender (Optional Any): Indicates the object that initiated the segue.
          */
         
-        // If segue being prepared goes to results view controller, pass selected food for results view controller's attributes
+        // If segue being prepared goes to results view controller, pass selected food and date for results view controller's attributes
         if segue.identifier == K.searchResultSegue {
             let destinationVC = segue.destination as! ResultViewController
             destinationVC.selectedFood = selectedFood
+            destinationVC.dateString = dateString
         }
 
         // If segue being prepared goes to barcode scanner, set self as delegate
@@ -359,12 +361,11 @@ extension SearchViewController: BarcodeScannerDelegate {
         proteinCallManager.findFoodByBarcode(barcode: barcode) { food in
             DispatchQueue.main.async {
 
-                // If food was found, dismiss scanner and navigate to results
+                // If food was found, pop scanner and navigate to results
                 if let safeFood = food {
-                    self.dismiss(animated: true) {
-                        self.selectedFood = safeFood
-                        self.performSegue(withIdentifier: K.searchResultSegue, sender: self)
-                    }
+                    self.selectedFood = safeFood
+                    self.navigationController?.popViewController(animated: false)
+                    self.performSegue(withIdentifier: K.searchResultSegue, sender: self)
                 }
 
                 // Otherwise, show alert on the scanner and resume scanning when dismissed

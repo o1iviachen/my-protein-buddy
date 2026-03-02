@@ -72,8 +72,10 @@ class ResultViewController: UIViewController {
         // Set temporary measure (keep selected food unchanged in case user is updating)
         temporaryMeasure = selectedFood!.selectedMeasure
         
-        // Set date string
-        dateString = dateManager.formatCurrentDate(dateFormat: "yy_MM_dd")
+        // Set date string (only default to today if not already set by a previous view controller)
+        if dateString == nil {
+            dateString = dateManager.formatCurrentDate(dateFormat: "yy_MM_dd")
+        }
 
         // Show loading animation
         loadingAnimation.isHidden = false
