@@ -359,15 +359,12 @@ extension SearchViewController: BarcodeScannerDelegate {
         proteinCallManager.findFoodByBarcode(barcode: barcode) { food in
             DispatchQueue.main.async {
 
-                // If food was found, pop back to search and navigate to results
+                // If food was found, dismiss scanner and navigate to results
                 if let safeFood = food {
-                    CATransaction.begin()
-                    CATransaction.setCompletionBlock {
+                    self.dismiss(animated: true) {
                         self.selectedFood = safeFood
                         self.performSegue(withIdentifier: K.searchResultSegue, sender: self)
                     }
-                    self.navigationController?.popViewController(animated: true)
-                    CATransaction.commit()
                 }
 
                 // Otherwise, show alert on the scanner and resume scanning when dismissed
