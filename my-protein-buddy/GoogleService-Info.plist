@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>936764257025-h7t9k7l8hbo4bphjco0ulbuo98tu21c1.apps.googleusercontent.com</string>
+	<string>936764257025-sq5oiqqus0p1ocv16dg47g1j8snop9ip.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.936764257025-h7t9k7l8hbo4bphjco0ulbuo98tu21c1</string>
+	<string>com.googleusercontent.apps.936764257025-sq5oiqqus0p1ocv16dg47g1j8snop9ip</string>
 	<key>API_KEY</key>
 	<string>AIzaSyA31S8K2CCsoc327RsS0eaCeWDZhS0r_pw</string>
 	<key>GCM_SENDER_ID</key>
@@ -13,7 +13,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.chenolivia.my-protein-buddy</string>
+	<string>com.oliviachen.my-protein-buddy</string>
 	<key>PROJECT_ID</key>
 	<string>my-protein-buddy</string>
 	<key>STORAGE_BUCKET</key>
@@ -29,6 +29,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:936764257025:ios:df6726e78c14af954a6100</string>
+	<string>1:936764257025:ios:764d15b8c0693ff74a6100</string>
 </dict>
 </plist>
