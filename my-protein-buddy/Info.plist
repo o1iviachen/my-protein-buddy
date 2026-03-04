@@ -2,8 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>ITSAppUsesNonExemptEncryption</key>
-	<false/>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
@@ -15,8 +13,6 @@
 			</array>
 		</dict>
 	</array>
-	<key>NSCameraUsageDescription</key>
-	<string>camera access is needed to scan food barcodes</string>
 	<key>FATSECRET_CLIENT_ID</key>
 	<string>$(FATSECRET_CLIENT_ID)</string>
 	<key>FATSECRET_CLIENT_SECRET</key>

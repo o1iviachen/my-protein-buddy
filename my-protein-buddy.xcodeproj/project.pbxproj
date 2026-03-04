@@ -40,8 +40,8 @@
 		9F2358AB2D942F3D001B3F1A /* CalendarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F2358AA2D942F3D001B3F1A /* CalendarViewController.swift */; };
 		9F8594A52D88F40200E21AE2 /* PasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F8594A42D88F40200E21AE2 /* PasswordViewController.swift */; };
 		9FF16E1B2DA431C70043F90D /* AlertManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FF16E1A2DA431C70043F90D /* AlertManager.swift */; };
-		F6D373D53C6945D19F75DB5B /* BarcodeScannerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 814224F726E5487081CECC92 /* BarcodeScannerViewController.swift */; };
 		E53D48A4DBC3F05CC6E8C479 /* Pods_my_protein_buddy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D5361E3F6E38FCF0BA94F0D /* Pods_my_protein_buddy.framework */; };
+		F6D373D53C6945D19F75DB5B /* BarcodeScannerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 814224F726E5487081CECC92 /* BarcodeScannerViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -72,6 +72,7 @@
 		58B29EB82D9D9BEC002F6FA0 /* ResultViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultViewController.swift; sourceTree = "<group>"; };
 		58B29EBA2D9D9F96002F6FA0 /* FirebaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseManager.swift; sourceTree = "<group>"; };
 		58B29EBC2D9F5CEC002F6FA0 /* PickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickerViewController.swift; sourceTree = "<group>"; };
+		58B6B2CB2F58682800F0174A /* my-protein-buddy.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "my-protein-buddy.entitlements"; sourceTree = "<group>"; };
 		58D361742DE74B3A00FCB70E /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		58D3617A2DE74BFF00FCB70E /* Secrets.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Secrets.xcconfig; sourceTree = "<group>"; };
 		58FC741C2D91CF500007FC3E /* FoodCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodCell.swift; sourceTree = "<group>"; };
@@ -175,6 +176,7 @@
 		589FADF22D6E34DA007890AB /* my-protein-buddy */ = {
 			isa = PBXGroup;
 			children = (
+				58B6B2CB2F58682800F0174A /* my-protein-buddy.entitlements */,
 				584D36CB2F496AE900BFF868 /* PrivacyInfo.xcprivacy */,
 				589FADF32D6E34DA007890AB /* AppDelegate.swift */,
 				589FADF52D6E34DA007890AB /* SceneDelegate.swift */,
@@ -514,12 +516,15 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColour;
+				CODE_SIGN_ENTITLEMENTS = "my-protein-buddy/my-protein-buddy.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 4CMVBFM2BQ;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "my-protein-buddy/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = MyProteinBuddy;
+				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
+				INFOPLIST_KEY_NSCameraUsageDescription = "camera access is needed to scan food barcodes";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -530,7 +535,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.oliviachen.my-protein-buddy";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.chenolivia.my-protein-buddy";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -544,12 +549,15 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColour;
+				CODE_SIGN_ENTITLEMENTS = "my-protein-buddy/my-protein-buddy.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 4CMVBFM2BQ;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "my-protein-buddy/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = MyProteinBuddy;
+				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
+				INFOPLIST_KEY_NSCameraUsageDescription = "camera access is needed to scan food barcodes";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -560,7 +568,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.oliviachen.my-protein-buddy";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.chenolivia.my-protein-buddy";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;

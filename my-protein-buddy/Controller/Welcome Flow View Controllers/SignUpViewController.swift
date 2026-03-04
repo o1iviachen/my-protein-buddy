@@ -11,20 +11,24 @@
 import UIKit
 import GoogleSignIn
 import Firebase
+import AuthenticationServices
+import CryptoKit
 
 
 class SignUpViewController: UIViewController {
     /**
-     A class that allows the View Controller to manage the user sign-up, compatible with email/password registration and Google Sign-In. It also uses Firebase Authentication to create new accounts, handle errors, and guide the app navigation.
-     
+     A class that allows the View Controller to manage the user sign-up, compatible with email/password registration, Google Sign-In, and Sign in with Apple. It also uses Firebase Authentication to create new accounts, handle errors, and guide the app navigation.
+
      - Properties:
         - passwordTextField (Unwrapped UITextField): Allows the user to enter their password.
         - emailTextField (Unwrapped UITextFIeld): Allows the user to enter their email address.
+        - currentNonce (Optional String): Stores the nonce used for Apple Sign-In security.
      */
-    
+
     let db = Firestore.firestore()
     let alertManager = AlertManager()
-    
+    var currentNonce: String?
+
     @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var emailTextField: UITextField!
 
@@ -69,6 +73,21 @@ class SignUpViewController: UIViewController {
     }
     
     
+    @IBAction func appleSignUpPressed(_ sender: UIButton) {
+        let nonce = randomNonceString()
+        currentNonce = nonce
+        let appleIDProvider = ASAuthorizationAppleIDProvider()
+        let request = appleIDProvider.createRequest()
+        request.requestedScopes = [.fullName, .email]
+        request.nonce = sha256(nonce)
+
+        let authorizationController = ASAuthorizationController(authorizationRequests: [request])
+        authorizationController.delegate = self
+        authorizationController.presentationContextProvider = self
+        authorizationController.performRequests()
+    }
+
+
     @IBAction func googleSignUpPressed(_ sender: GIDSignInButton) {
         /**
          Initiates Google Sign-In to authenticate the user, and navigates the user to the appropriate View Controller.
@@ -131,6 +150,66 @@ class SignUpViewController: UIViewController {
                 }
             }
         }
+    }
+}
+
+
+// MARK: - Sign in with Apple
+
+extension SignUpViewController: ASAuthorizationControllerDelegate, ASAuthorizationControllerPresentationContextProviding {
+
+    func presentationAnchor(for controller: ASAuthorizationController) -> ASPresentationAnchor {
+        return self.view.window!
+    }
+
+    func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
+        if let appleIDCredential = authorization.credential as? ASAuthorizationAppleIDCredential {
+            guard let nonce = currentNonce else { return }
+            guard let appleIDToken = appleIDCredential.identityToken,
+                  let idTokenString = String(data: appleIDToken, encoding: .utf8) else {
+                alertManager.showAlert(alertMessage: "Unable to fetch identity token.", viewController: self)
+                return
+            }
+
+            let credential = OAuthProvider.appleCredential(withIDToken: idTokenString, rawNonce: nonce, fullName: appleIDCredential.fullName)
+
+            Auth.auth().signIn(with: credential) { result, err in
+                if let err = err {
+                    self.alertManager.showAlert(alertMessage: err.localizedDescription, viewController: self)
+                } else {
+                    if let isNewUser = result?.additionalUserInfo?.isNewUser {
+                        if isNewUser {
+                            self.performSegue(withIdentifier: K.signUpCalculatorSegue, sender: self)
+                        } else {
+                            self.performSegue(withIdentifier: K.signUpTabSegue, sender: self)
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Error) {
+        if (error as NSError).code != ASAuthorizationError.canceled.rawValue {
+            alertManager.showAlert(alertMessage: error.localizedDescription, viewController: self)
+        }
+    }
+
+    private func randomNonceString(length: Int = 32) -> String {
+        precondition(length > 0)
+        var randomBytes = [UInt8](repeating: 0, count: length)
+        let errorCode = SecRandomCopyBytes(kSecRandomDefault, randomBytes.count, &randomBytes)
+        if errorCode != errSecSuccess {
+            fatalError("Unable to generate nonce. SecRandomCopyBytes failed with OSStatus \(errorCode)")
+        }
+        let charset: [Character] = Array("0123456789ABCDEFGHIJKLMNOPQRSTUVXYZabcdefghijklmnopqrstuvwxyz-._")
+        return String(randomBytes.map { charset[Int($0) % charset.count] })
+    }
+
+    private func sha256(_ input: String) -> String {
+        let inputData = Data(input.utf8)
+        let hashedData = SHA256.hash(data: inputData)
+        return hashedData.compactMap { String(format: "%02x", $0) }.joined()
     }
 }
 
