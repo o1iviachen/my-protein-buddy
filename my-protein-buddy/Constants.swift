@@ -21,6 +21,8 @@ struct K {
     static let foodCellIdentifier = "FoodCell"
     static let logOutCellIdentifier = "LogOutCell"
     static let logOutCellNib = "LogOutCell"
+    static let deleteAccountCellIdentifier = "DeleteAccountCell"
+    static let deleteAccountCellNib = "DeleteAccountCell"
     static let searchSegue = "searchSegue"
     static let calculatorTabSegue = "calculatorToTab"
     static let signUpCalculatorSegue = "signUpToCalculator"

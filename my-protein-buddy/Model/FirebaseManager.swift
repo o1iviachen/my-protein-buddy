@@ -386,8 +386,28 @@ struct FirebaseManager {
         
         // Fetch recent meal, which may be nil
         let recentMeal = document?.data()?["recentMeal"] as? String
-        
+
         // Call completion handler possibly with recent meal
         completion(recentMeal)
+    }
+
+    func deleteUserAccount(completion: @escaping (Error?) -> Void) {
+        guard let user = Auth.auth().currentUser, let email = user.email else {
+            completion(NSError(domain: "", code: -1, userInfo: [NSLocalizedDescriptionKey: "no user signed in."]))
+            return
+        }
+
+        // Delete user's Firestore document
+        db.collection("users").document(email).delete { error in
+            if let error = error {
+                completion(error)
+                return
+            }
+
+            // Delete user's Firebase Auth account
+            user.delete { error in
+                completion(error)
+            }
+        }
     }
 }

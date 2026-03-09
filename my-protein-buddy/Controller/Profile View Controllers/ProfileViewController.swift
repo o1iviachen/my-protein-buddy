@@ -20,7 +20,7 @@ class ProfileViewController: UIViewController {
         - proteinLabel (Unwrapped UILabel): Displays the user's protein goal.
      */
     
-    let data = [[Setting(image: UIImage(systemName: "plusminus")!, setting: "protein calculator"), Setting(image: UIImage(systemName: "square.and.pencil")!, setting: "edit protein goal")], [Setting(image: UIImage(systemName: "wrench.adjustable")!, setting: "support")], ["Log out"]]
+    let data = [[Setting(image: UIImage(systemName: "plusminus")!, setting: "protein calculator"), Setting(image: UIImage(systemName: "square.and.pencil")!, setting: "edit protein goal")], [Setting(image: UIImage(systemName: "wrench.adjustable")!, setting: "support")], ["Log out"], ["Delete account"]]
     let firebaseManager = FirebaseManager()
     let alertManager = AlertManager()
     
@@ -47,6 +47,7 @@ class ProfileViewController: UIViewController {
         // Register employed cells
         tableView.register(UINib(nibName: K.profileCellIdentifier, bundle: nil), forCellReuseIdentifier: K.profileCellIdentifier)
         tableView.register(UINib(nibName: K.logOutCellNib, bundle: nil), forCellReuseIdentifier: K.logOutCellIdentifier)
+        tableView.register(UINib(nibName: K.deleteAccountCellNib, bundle: nil), forCellReuseIdentifier: K.deleteAccountCellIdentifier)
         
         // Make the cells rounded
         tableView.separatorStyle = .none
@@ -171,9 +172,15 @@ extension ProfileViewController: UITableViewDataSource {
             return cell
         }
         
+        // If delete account cell
+        else if indexPath == [3, 0] {
+            let cell = tableView.dequeueReusableCell(withIdentifier: K.deleteAccountCellIdentifier, for: indexPath)
+            return cell
+        }
+
         // Otherwise, create a log out cell
         else {
-            let logOutCell = tableView.dequeueReusableCell(withIdentifier: K.logOutCellIdentifier, for: indexPath) 
+            let logOutCell = tableView.dequeueReusableCell(withIdentifier: K.logOutCellIdentifier, for: indexPath)
             return logOutCell
         }
     }
@@ -243,10 +250,41 @@ extension ProfileViewController: UITableViewDelegate {
             }
         }
         
+        // If delete account button is pressed
+        else if indexPath == [3, 0] {
+            let alert = UIAlertController(title: "delete account?", message: "this will permanently delete your account and all your data. this cannot be undone.", preferredStyle: .alert)
+
+            alert.view.tintColor = UIColor(red: 102/255, green: 51/255, blue: 0/255, alpha: 1)
+
+            let cancelAction = UIAlertAction(title: "cancel", style: .default)
+
+            let deleteAction = UIAlertAction(title: "delete", style: .destructive) { (action) in
+                self.firebaseManager.deleteUserAccount { error in
+                    if let error = error {
+                        self.alertManager.showAlert(alertMessage: error.localizedDescription, viewController: self)
+                    } else {
+                        self.navigationController?.popToRootViewController(animated: true)
+                    }
+                }
+            }
+
+            alert.addAction(cancelAction)
+            alert.addAction(deleteAction)
+            self.present(alert, animated: true, completion: nil)
+        }
+
         tableView.deselectRow(at: indexPath, animated: true)
     }
     
     
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        if indexPath == [3, 0] {
+            return 32
+        }
+        return UITableView.automaticDimension
+    }
+
+
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         /**
          Sets the height for the header in each section in the Table View.
@@ -258,6 +296,9 @@ extension ProfileViewController: UITableViewDelegate {
          - Returns: A CGFloat indicating the height of the header.
          */
         
+        if section == 3 {
+            return 2.0
+        }
         return 10.0
     }
     

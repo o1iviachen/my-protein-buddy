@@ -42,6 +42,8 @@
 		9FF16E1B2DA431C70043F90D /* AlertManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FF16E1A2DA431C70043F90D /* AlertManager.swift */; };
 		E53D48A4DBC3F05CC6E8C479 /* Pods_my_protein_buddy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D5361E3F6E38FCF0BA94F0D /* Pods_my_protein_buddy.framework */; };
 		F6D373D53C6945D19F75DB5B /* BarcodeScannerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 814224F726E5487081CECC92 /* BarcodeScannerViewController.swift */; };
+		AA1234560001000000000001 /* DeleteAccountCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1234560001000000000002 /* DeleteAccountCell.swift */; };
+		AA1234560001000000000003 /* DeleteAccountCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AA1234560001000000000004 /* DeleteAccountCell.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -86,6 +88,8 @@
 		9FF16E1A2DA431C70043F90D /* AlertManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertManager.swift; sourceTree = "<group>"; };
 		D0037AA65D64F65E87DAA1FA /* Pods-my-protein-buddy.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-my-protein-buddy.debug.xcconfig"; path = "Target Support Files/Pods-my-protein-buddy/Pods-my-protein-buddy.debug.xcconfig"; sourceTree = "<group>"; };
 		E9833FAC4494DE34F8F7A9EC /* Pods-my-protein-buddy.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-my-protein-buddy.release.xcconfig"; path = "Target Support Files/Pods-my-protein-buddy/Pods-my-protein-buddy.release.xcconfig"; sourceTree = "<group>"; };
+		AA1234560001000000000002 /* DeleteAccountCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteAccountCell.swift; sourceTree = "<group>"; };
+		AA1234560001000000000004 /* DeleteAccountCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DeleteAccountCell.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -214,6 +218,8 @@
 				582BE0F62D9499460059A4D1 /* ProfileCell.xib */,
 				582BE0F52D9499460059A4D1 /* ProfileCell.swift */,
 				582BE0FA2D949ADF0059A4D1 /* LogOutCell.xib */,
+				AA1234560001000000000002 /* DeleteAccountCell.swift */,
+				AA1234560001000000000004 /* DeleteAccountCell.xib */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -295,6 +301,7 @@
 				589FADFB2D6E34DA007890AB /* Main.storyboard in Resources */,
 				584D36CC2F496AE900BFF868 /* PrivacyInfo.xcprivacy in Resources */,
 				58D361752DE74B3A00FCB70E /* GoogleService-Info.plist in Resources */,
+				AA1234560001000000000003 /* DeleteAccountCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -377,6 +384,7 @@
 				582BE1042D94A9D30059A4D1 /* CalculatorViewController.swift in Sources */,
 				582BE0FE2D94A2B80059A4D1 /* SelectorViewController.swift in Sources */,
 				F6D373D53C6945D19F75DB5B /* BarcodeScannerViewController.swift in Sources */,
+				AA1234560001000000000001 /* DeleteAccountCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
