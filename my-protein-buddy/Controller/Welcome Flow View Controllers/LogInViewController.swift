@@ -128,11 +128,12 @@ class LogInViewController: UIViewController {
         GIDSignIn.sharedInstance.configuration = config
         
         // Start the sign in flow!
-        GIDSignIn.sharedInstance.signIn(withPresenting: self) { [unowned self] result, err in
-            
+        GIDSignIn.sharedInstance.signIn(withPresenting: self) { [weak self] result, err in
+            guard let self = self else { return }
+
             // If there is an error, show error to user
             if let err = err {
-                
+
                 // Unless the "error" is the user cancelling the authentication
                 if err.localizedDescription != "The user canceled the sign-in flow." {
                     self.alertManager.showAlert(alertMessage: err.localizedDescription, viewController: self)
@@ -142,25 +143,25 @@ class LogInViewController: UIViewController {
                     let user = result?.user
                     let idToken = user?.idToken?.tokenString
                     let credential = GoogleAuthProvider.credential(withIDToken: idToken!, accessToken: user!.accessToken.tokenString)
-                    
+
                     // Sign in user with Google
                     Auth.auth().signIn(with: credential) { result, err in
-                        
+
                         // If there are errors in signing in, show error to user
                         if let err = err {
                             self.alertManager.showAlert(alertMessage: err.localizedDescription, viewController: self)
                         }
-                        
+
                         // Otherwise, check if user is new or not
                         else {
-                            
+
                             if let isNewUser: Bool = result?.additionalUserInfo?.isNewUser {
-                                
+
                                 // If user is new, go to calculator view controller
                                 if isNewUser {
                                     self.performSegue(withIdentifier: K.logInCalculatorSegue, sender: self)
                                 }
-                                
+
                                 // If user is not new, go to tab bar view controller
                                 else {
                                     self.performSegue(withIdentifier: K.logInTabSegue, sender: self)
