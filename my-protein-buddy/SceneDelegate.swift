@@ -10,6 +10,7 @@
 
 import UIKit
 import Firebase
+import GoogleSignIn
 
 // Default class with pre-existing functions, slightly modified to prevent repetitive login (Line 32-46)
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
@@ -63,6 +64,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
             guard let _ = (scene as? UIWindowScene) else { return }
         }
+    }
+
+    func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
+        guard let url = URLContexts.first?.url else { return }
+        GIDSignIn.sharedInstance.handle(url)
     }
 }
 
